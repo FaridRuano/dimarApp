@@ -53,9 +53,9 @@ const Category = () => {
 
 	const col=[
 		{
-			name: "Eliminar",		
+			name: "",		
 			cell: (row) => (
-				<div style={{textAlign:'center'}}>
+				<div style={{textAlign:'center',cursor:'pointer'}}>
 					<span onClick={(e) => {						
 						if (window.confirm("Estas seguro que deseas eliminar?"))
 						requestDelete(row.id);
@@ -71,24 +71,48 @@ const Category = () => {
 						></i>
 					</span>					
 				</div>									
-			)
+			),
+			width: '50px',
+			center: true,
 		},
 		{
 			name: 'ID',
 			selector: row => row.id,
+			center: true,
+			width: '70px',
 		},
 		{
 			name: 'Nombre',
 			selector: row => row.name,
+			width: '200px',
 		},
 		{
 			name: 'Descripcion',
 			selector: row => row.descr,
-			wrap:true
+			wrap:true,
 		},			
 	]
 
-	
+	const customStyles = {
+		rows: {
+			style: {
+				minHeight: '52px',
+			},
+		},
+		headCells: {
+			style: {
+				padding: '10px',
+				fontSize: '0.9rem',
+				fontWeight: 'bold',
+				background: 'rgba(236, 240, 241 ,0.4)', 
+			},
+		},
+		cells: {
+			style: {
+				padding: '15px',	
+			},
+		},
+	}
 
 	const routeChange = () =>{
 		history(`${process.env.PUBLIC_URL}/products/add-category`);		
@@ -133,14 +157,14 @@ const Category = () => {
 									</Button>									
 								</div>
 								<div className="clearfix"></div>
-								<div id="basicScenario" className="product-physical">
+								<div>
 									<DataTable
 										columns={col}
 										data={filtered}
 										multiSelectOption={false}
 										pageSize={10}
 										pagination={true}
-										class="-striped -highlight"
+										customStyles={customStyles}
 										noDataComponent="No hay datos para mostrar" 
 									/>
 								</div>

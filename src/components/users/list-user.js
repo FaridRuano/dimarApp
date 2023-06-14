@@ -46,7 +46,7 @@ const List_Users = () => {
 
 	const col=[
 		{
-			name: "Eliminar",		
+			name: "",		
 			cell: (row) => (
 				<div style={{textAlign:'center'}}>
 					<span onClick={(e) => {						
@@ -64,15 +64,20 @@ const List_Users = () => {
 						></i>
 					</span>					
 				</div>									
-			)
+			),
+			center: true,
+			width: '50px',
 		},
 		{
 			name: 'Cedula',
 			selector: row => row.ced,
+			width: '140px',
+			center: true
 		},
 		{
 			name: 'Nombre',
 			selector: row => row.name,
+			width: '170px',
 		},
 		{
 			name: 'Usuario',
@@ -84,17 +89,28 @@ const List_Users = () => {
 			)							
 		},
 		{
-			name: 'Email',
-			selector: row => row.email,
-			wrap:true
-		},
-		{
-			name: 'Sucursal',
+			name: <i className="fa fa-cube"/>,
 			selector: row => row.suc,
+			width: '70px',
+			center: true,
 		},
 		{
-			name: 'Cargo',
+			name: <i className="fa fa-tasks"/>,
 			selector: row => row.perm,
+			center: true,
+			width: '70px',
+		},	
+		{
+			name: <i className="fa fa-venus-mars"/>,
+			selector: row => row.gender,
+			cell: (row) => (
+				<Fragment>
+					{row.gender===null ? <span>S/I</span> : <span>{row.gender}</span>}				
+				</Fragment>
+			),
+			center: true,
+			width: '70px',
+
 		},	
 		{
 			name: 'Telefono',
@@ -103,7 +119,9 @@ const List_Users = () => {
 				<Fragment>
 					{row.phone===null ? <span>Sin info</span> : <span>{row.phone}</span>}				
 				</Fragment>
-			)	
+			),
+			width: '130px',
+
 		},		
 		{
 			name: 'Fec. Nac.',
@@ -113,28 +131,43 @@ const List_Users = () => {
 					{row.birth===null ? <span>Sin info</span> : <span>{row.birth}</span>}				
 				</Fragment>
 			)	
-		},
-		{
-			name: 'Genero',
-			selector: row => row.gender,
-			cell: (row) => (
-				<Fragment>
-					{row.gender===null ? <span>Sin info</span> : <span>{row.gender}</span>}				
-				</Fragment>
-			),
-			center: true
-		},		
-		{
-			name: 'Direccion',
-			selector: row => row.dir,
-			cell: (row) => (
-				<Fragment>
-					{row.dir===null ? <span>Sin info</span> : <span>{row.dir}</span>}				
-				</Fragment>
-			),
-			wrap:true
-		},				
+		},							
 	]
+
+	const customStyles = {
+		rows: {
+			style: {
+				minHeight: '52px',
+			},
+		},
+		headCells: {
+			style: {
+				padding: '10px',
+				fontSize: '0.9rem',
+				fontWeight: 'bold',
+				background: 'rgba(236, 240, 241 ,0.4)', 
+			},
+		},
+		cells: {
+			style: {
+				padding: '15px',	
+			},
+		},
+	}
+
+	const ExpandedComponent = ({ data }) => (
+		<div style={{margin: '10px', marginLeft:'50px',padding: '1opx', display: 'flex', flexDirection:'row',gap:'5rem'}}>
+			<span>
+				<h2 style={{fontSize: '12px'}}>Email:</h2>
+				<p>{JSON.stringify(data.email, null, 2)}</p>
+			</span>			
+			<span>
+				<h2 style={{fontSize: '12px'}}>Direccion:</h2>
+				{data.dir? <p>{JSON.stringify(data.dir, null, 2)}</p>:<p>Sin Info.</p>}
+				
+			</span>			
+		</div>		
+	)
 
 	const routeChange = () =>{
 		history(`${process.env.PUBLIC_URL}/users/create-user`);		
@@ -179,15 +212,17 @@ const List_Users = () => {
 									</Button>																		
 								</div>
 								<div className="clearfix"></div>
-								<div id="basicScenario" className="product-physical">
+								<div>
 									<DataTable
 										columns={col}
 										data={filtered}
 										multiSelectOption={false}
 										pageSize={10}
 										pagination={true}
-										class="-striped -highlight"
 										noDataComponent="No hay datos para mostrar" 
+										expandableRows
+										expandableRowsComponent={ExpandedComponent}
+										customStyles={customStyles}
 									/>
 								</div>
 							</CardBody>

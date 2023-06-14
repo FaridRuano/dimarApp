@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Tabs, TabList, TabPanel, Tab } from "react-tabs";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
-import {  useNavigate } from "react-router-dom";
+import {  useNavigate, Link } from "react-router-dom";
 import axios from 'axios';
 import { toast,ToastContainer } from "react-toastify";
 import { NumericFormat } from 'react-number-format';
@@ -127,9 +127,6 @@ const TabsetUser = () => {
 	return (
 		<Fragment>
 			<Tabs>
-				<TabList className="nav nav-tabs tab-coupon">
-					<Tab className="nav-link">Informacion</Tab>
-				</TabList>
 				<TabPanel>
 					<Form className="needs-validation user-add" noValidate="">
 						<h4>Detalles de Usuario</h4>
@@ -216,8 +213,6 @@ const TabsetUser = () => {
 									<option value="">--Seleccionar--</option>
 									<option value="AMB">AMBATO</option>
 									<option value="GYQ">GUAYAQUIL</option>
-
-
 								</select>
 							</div>							
 						</FormGroup>
@@ -228,6 +223,11 @@ const TabsetUser = () => {
 				<Button type="button" color="primary" onClick={()=>requestPost()}>
 					Guardar
 				</Button>
+				<Link to='/users/list-user'>
+					<Button type="button" color="ligth" onClick={()=>requestPost()}>
+						Descartar
+					</Button>
+				</Link>
 			</div>
 			<ToastContainer theme="colored"/>								
 		</Fragment>

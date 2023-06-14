@@ -23,9 +23,10 @@ const Add_client = () => {
 		last: '',
 		email: '',
 		phone: '',
+        city: '',
 		direc: '',
 		cod: '',
-		saler: 'idUser',
+		saler: '1',
 	});
 
     const handleChange=e=>{		
@@ -105,6 +106,7 @@ const Add_client = () => {
 			f.append("last", client.last);
 			f.append("email", client.email);
 			f.append("phone", client.phone);
+			f.append("city", client.city);
 			f.append("direc", client.direc);
 			f.append("cod", client.cod);
 			f.append("saler", client.saler);
@@ -147,7 +149,7 @@ const Add_client = () => {
                                             className="form-control"
                                             customInput={Input}
                                             name='ced'
-                                            maxLength={10}												
+                                            maxLength={13}												
                                             allowNegative={false}
                                             decimalScale={0}
                                             allowLeadingZeros
@@ -226,6 +228,19 @@ const Add_client = () => {
                                 </div>
                                 <div className="form-group row">
                                     <Label className="col-xl-3 col-md-4">
+                                        <span>*</span> Ciudad
+                                    </Label>
+                                    <div className="col-md-8">
+                                        <Input
+                                            className="form-control"
+                                            maxLength={100}
+                                            name="city"
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="form-group row">
+                                    <Label className="col-xl-3 col-md-4">
                                         <span>*</span> Código
                                     </Label>
                                     <div className="col-md-8">
@@ -251,8 +266,8 @@ const Add_client = () => {
                                         />
                                     </div>
                                 </div>                                
-                                <FormGroup className="mb-0">
-                                    <div className="product-buttons text-left">
+                                <FormGroup>
+                                    <div>
                                         <Button type="button" color="primary" onClick={()=>requestPost()}>
                                             Guardar
                                         </Button>

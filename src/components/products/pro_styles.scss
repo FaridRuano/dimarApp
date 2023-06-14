@@ -1,0 +1,27 @@
+.col-variant-name {
+    display: flex;
+    align-items: center;
+}
+
+.button-dispo {    
+    border-radius: 25px;
+    display: flex;
+    cursor: pointer;   
+    justify-content: center;
+    align-items: center;
+    width: 90px;
+    transition: .3s ease-in;
+    margin: 10px;
+}
+
+.button-dispo span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+    color: white;
+}
+
+.button-dispo:hover {
+    transform: translateY(-5px);
+}

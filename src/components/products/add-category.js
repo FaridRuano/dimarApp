@@ -1,9 +1,82 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Button, Card, CardBody, CardHeader, Col, Container, FormGroup, Input, Label, Row } from "reactstrap";
 import Breadcrumb from "../common/breadcrumb";
-import MyDropzone from "../common/dropzone";
+import {  useNavigate } from "react-router-dom";
+import axios from 'axios'
+import { toast,ToastContainer } from "react-toastify";
 
 const Add_category = () => {
+
+	const baseUrl = 'http://localhost:8080/modelsDimar/models/di_products/categories.php'
+	const history = useNavigate();
+	const [data, setData] = useState([]);
+
+	const requestGet=async()=>{
+        await axios.get(baseUrl).then(response=>{
+            setData(response.data);
+        })
+    }
+
+	useEffect(()=>{
+        requestGet();
+    },[])
+
+	const routeChange = () => {
+		history(`${process.env.PUBLIC_URL}/products/category-list`);
+	};
+
+	const [categ, setCateg] = useState({
+		name: '',
+		desc: '',		
+	});
+
+	const handleChange=e=>{		
+		const{name, value}=e.target;
+		setCateg((prevState)=>({
+			...prevState,
+			[name]: value,
+		}))		
+	}
+
+	function isEmpty(){
+		let key = false
+		if(categ.name.length<1){
+			key = true
+			toast.error("Nombre vacio!");
+		}
+		return key		
+	}
+
+	function isRepeated(){
+		let key = false
+		if(data.length===0){
+            return key;
+        }
+		if(data.some(value => value.name === categ.name.toUpperCase())){
+			toast.error("Nombre ya existe!");
+			key = true
+		}
+		return key
+	}
+
+	const requestPost=async()=>{
+		if(!isEmpty() && !isRepeated()){
+			var f = new FormData()
+			f.append("METHOD", 'ADD')
+			f.append("name", categ.name)
+			f.append("desc", categ.desc)
+			await axios.post(baseUrl, f).then(
+				response=>{
+					setCateg('')
+					toast.success("Agregado Exitosamente!")			
+				}
+			).catch(error=>{
+				console.log(error)
+			})			
+			routeChange()
+		}
+	}
+
 	return (
 		<Fragment>
 			<Breadcrumb title="Crear Categoria"/>
@@ -25,6 +98,8 @@ const Add_category = () => {
 												id="validationCustom0"
 												type="text"
 												required=""
+												name="name"
+												onChange={handleChange}
 											/>
 										</div>
 									</div>
@@ -38,37 +113,28 @@ const Add_category = () => {
 												id="validationCustom0"
 												type="text"
 												required=""
+												maxLength={99}
+												name="desc"
+												onChange={handleChange}
 											/>
 										</div>
-									</div>			
-									<div className="form-group row">
-										<Label className="col-xl-3 col-md-4">
-											<span>*</span> Imagen
-										</Label>
-										<div className="col-md-8">
-											<Input
-												className="form-control"
-												id="validationCustom0"
-												type="file"
-												required=""
-											/>
-										</div>
-									</div>
-									<FormGroup className="mb-0">
-										<div className="product-buttons text-left">
-											<Button type="button" color="primary">
-												Guadar
-											</Button>
-											<Button type="button" color="light">
-												Descartar
-											</Button>
-										</div>
-									</FormGroup>															
+									</div>												
+									<FormGroup>
+                                    <div>
+                                        <Button type="button" color="primary" onClick={()=>requestPost()}>
+                                            Guardar
+                                        </Button>
+                                        <Button type="button" color="light" onClick={()=>routeChange()}>
+                                            Descartar
+                                        </Button>
+                                    </div>
+                                </FormGroup>															
 							</CardBody>
 						</Card>
 					</Col>
 				</Row>
 			</Container>
+			<ToastContainer theme="colored"/>								
 		</Fragment>
 	);
 };

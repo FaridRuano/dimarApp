@@ -4,12 +4,6 @@ import App from '../components/app'
 import Datatable from '../components/common/datatable'
 import Dashboard from '../components/dashboard'
 
-/* Ventas */
-import Orders from '../components/sales/orders'
-import Transactionsales from '../components/sales/transactions-sales'
-import AddTransaction from '../components/sales/add-transaction'
-import AddSale from '../components/sales/add-sale'
-
 /* Configuraciones */
 import Profile from '../components/settings/profile'
 import Edituser from '../components/settings/edit-user'
@@ -22,6 +16,8 @@ import Listuser from '../components/users/list-user'
 /* Productos */
 import Category from '../components/products/category-list'
 import Productlist from '../components/products/product-list'
+import ProductStock from '../components/stock/product-stock'
+
 /* Details Products */
 import Addcategory from '../components/products/add-category'
 import Addproduct from '../components/products/add-product'
@@ -81,17 +77,22 @@ const LayoutRoutes = () => {
 							path={`${process.env.PUBLIC_URL}/products/product-list`}
 							element={<Productlist />}
 						/>
+						<Route
+							path={`${process.env.PUBLIC_URL}/stock/product-stock`}
+							element={<ProductStock />}
+						/>
+
 						{/* DETALLES DE PRODUCTOS */}
 						<Route
 							path={`${process.env.PUBLIC_URL}/products/add-category`}
 							element={<Addcategory />}
 						/>						
 						<Route
-							path={`${process.env.PUBLIC_URL}/products/add-product`}
+							path={`${process.env.PUBLIC_URL}/products/add-product/:id?`}
 							element={<Addproduct />}
 						/>
 						<Route
-							path={`${process.env.PUBLIC_URL}/products/product-detail`}
+							path={`${process.env.PUBLIC_URL}/products/product-detail/:id`}
 							element={<Productdetail />}
 						/>
 						
@@ -107,27 +108,7 @@ const LayoutRoutes = () => {
 						<Route
 							path={`${process.env.PUBLIC_URL}/requests/see-request`}
 							element={<Seerequest />}
-						/>	
-						
-
-						<Route
-							path={`${process.env.PUBLIC_URL}/sales/orders`}
-							element={<Orders />}
-						/>
-						<Route
-							path={`${process.env.PUBLIC_URL}/sales/transactions`}
-							element={<Transactionsales />}
-						/>	
-						<Route
-							path={`${process.env.PUBLIC_URL}/sales/add-transaction`}
-							element={<AddTransaction />}
-						/>	
-						<Route
-							path={`${process.env.PUBLIC_URL}/sales/add-sale`}
-							element={<AddSale />}
-						/>				
-
-										
+						/>																		
 
 						<Route
 							path={`${process.env.PUBLIC_URL}/users/list-user`}

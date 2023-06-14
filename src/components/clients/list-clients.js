@@ -106,10 +106,10 @@ const Clients = () => {
 			width: '100px',
 		},
 		{
-			name: <i className="fa fa-user"/>,
+			name: <span><i className="fa fa-user"/>Vendedor</span>,
 			selector: row => row.saler,
 			center: true,
-			width: '50px',
+			width: '150px',
 		},
 
 	]

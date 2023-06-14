@@ -1,9 +1,9 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import Breadcrumb from "../common/breadcrumb";
 import "react-toastify/dist/ReactToastify.css";
 import DataTable from "react-data-table-component";
 import { ToastContainer, toast } from "react-toastify";
-import {  useNavigate } from "react-router-dom";
+import {  useNavigate, Link } from "react-router-dom";
 import {
 	Button,
 	Card,
@@ -13,66 +13,122 @@ import {
 	Input,
 	Row,
 } from "reactstrap";
+import axios from 'axios'
+
+
 
 const Product_list = () => {		
 
+	const baseUrl = "http://localhost:8080/modelsDimar/models/di_products/products.php";
 	const history = useNavigate();
+	const [search, setSearch] = useState("");
+    const [data, setData] = useState([]);		 
+	const [filtered, setFiltered] = useState([]);
+	
+	const requestGet=async()=>{
+        await axios.get(baseUrl).then(response=>{
+            setData(response.data);
+			setFiltered(response.data);
+        })
+    }
 
-	const handleDelete = () => {
-		if (window.confirm("Estas seguro que deseas eliminar?")) {
-			
-		}
-		toast.success("Eliminado correctamente !");
-	};
+	const requestDelete=async(id)=>{
+        var f = new FormData();
+        f.append("METHOD", "DELETE");
+		f.append("id", id);
+        await axios.post(baseUrl, f).then(response=>{
+            setData(data.filter(row=>row.id!==id));
+        }).catch(error=>{
+          console.log(error);
+        })
+		toast.success("Eliminado Exitosamente!");
+        requestGet();
+    }
 
 	const col=[		
 		{
-			name:'',
+			name:'Opciones',
 			selector: row => row.id,
-			cell: () => (
-				<div style={{textAlign:'center'}}>
-					<span onClick={() => routeChange("view")} style={{ cursor:'pointer'}}>
+			cell: (row) => (
+				<div style={{textAlign:'center',cursor:'pointer'}}>				
+					<Link to={`/products/product-detail/${row.id}`}>
+						<span onClick={() => routeChange("view")}>
+							<i
+								className="fa fa-dashcube"
+								style={{
+									width: 35,
+									fontSize: 20,
+									padding: 11,
+									color: "rgb(30, 90, 180)",
+								}}
+							></i>					
+						</span>		
+					</Link>
+					<Link to={`/products/add-product/${row.id}`}>
+						<span>
+								<i
+									className="fa fa-pencil"
+									style={{
+										width: 35,
+										fontSize: 20,
+										padding: 11,
+										color: "rgb(40, 167, 69)",
+									}}
+								></i>					
+						</span>
+					</Link>
+					<span onClick={(e) => {						
+						if (window.confirm("Estas seguro que deseas eliminar?"))
+						requestDelete(row.id);
+					}}>
 						<i
-							className="fa fa-edit"
+							className="fa fa-trash"
 							style={{
 								width: 35,
 								fontSize: 20,
 								padding: 11,
-								color: "rgb(30, 90, 180)",
+								color: "#e4566e",
 							}}
-						></i>					
-					</span>									
+						></i>
+					</span>								
 				</div>									
-			)
+			),
+			center: true,
+			width: '150px',
 		},
 		{
 			name: 'Categoria',
-			selector: row => row.category,
-			wrap:true
+			selector: row => row.cate,
+			wrap:false,
+			width: '140px',
 		},
 		{
 			name: 'Nombre',
 			selector: row => row.name,
-			wrap:true
+			wrap:true,
+			width: '150px',
 		},
 		{
-			name:'Disponibilidad',
-			selector: row => row.disp,
+			name:<i className="fa fa-cubes"></i>,
+			selector: row => row.dispo,
 			cell: (row) => (
 				<div style={{textAlign:'center'}}>
 					<span>
 						<i
-							className={row.disp===1?"fa fa-circle":"fa fa-circle-o"}
+							className={row.dispo?"fa fa-circle":"fa fa-circle-o"}
 							style={{
 								width: 35,
 								fontSize: 20,
 								padding: 11,
 								color: "rgb(40, 167, 69)",
 							}}
-						></i>					
+							
+						/>
 					</span>									
 				</div>									
-			)
+			),
+			center: true,
+
 		},
 		{
 			name: 'P. Contado',
@@ -93,7 +149,7 @@ const Product_list = () => {
 		},
 		{
 			name: 'P. Credito',
-			selector: row => row.credit,
+			selector: row => row.card,
 			cell: (row) => (
 				<div>
 					<span>
@@ -103,14 +159,14 @@ const Product_list = () => {
 								fontSize: 15,
 							}}
 						/>
-						{row.cash}
+						{row.card}
 					</span>
 				</div>
 			)
 		},
 		{
 			name: 'P. Distribuidor',
-			selector: row => row.distrib,
+			selector: row => row.dist,
 			cell: (row) => (
 				<div>
 					<span>
@@ -120,88 +176,91 @@ const Product_list = () => {
 								fontSize: 15,
 							}}
 						/>
-						{row.distrib}
+						{row.dist}
+					</span>
+				</div>
+			)
+		},					
+		{
+			name: 'P. Plaza',
+			selector: row => row.plaza,
+			cell: (row) => (
+				<div>
+					<span>
+						<i 
+							className="fa fa-dollar"
+							style={{
+								fontSize: 15,
+							}}
+						/>
+						{row.plaza}
 					</span>
 				</div>
 			)
 		},
 		{
-			name: 'Descripcion',
-			selector: row => row.descrip,
-			wrap:true
-		},					
-		{
-			name: 'Unidad',
-			selector: row => row.unidad,
-			wrap:true
+			name: 'P. Especial',
+			selector: row => row.special,
+			cell: (row) => (
+				<div>
+					<span>
+						<i 
+							className="fa fa-dollar"
+							style={{
+								fontSize: 15,
+							}}
+						/>
+						{row.special}
+					</span>
+				</div>
+			)
 		},
 		{
-			name: "Opciones",		
-			cell: (row) => (
-				<div style={{textAlign:'center'}}>
-					<span onClick={() => routeChange("edit")} style={{ cursor:'pointer'}}>
-						<i
-							className="fa fa-pencil"
-							style={{
-								width: 35,
-								fontSize: 20,
-								padding: 11,
-								color: "rgb(40, 167, 69)",
-							}}
-						></i>					
-					</span>
-					<span onClick={() => handleDelete()} style={{ cursor:'pointer'}}>
-						<i
-							className="fa fa-trash"
-							style={{
-								width: 35,
-								fontSize: 20,
-								padding: 11,
-								color: "#e4566e",
-							}}
-						></i>
-					</span>					
-				</div>									
-			)
+			name: 'Unidad',
+			selector: row => row.unit,
+			wrap:true
 		},
 	]
 
-	const data = [
-		{			
-			'id' : "1",
-			'category' : "Textiles",
-			'name': "Forros",
-			'cash': "6.60",		
-			'credit': "5.60",		
-			'distrib': "5.20",	
-			'descrip' : "Telado rojo con marfil",
-			'unidad' : "Metros",
-			'disp' : "1"
+	const customStyles = {
+		rows: {
+			style: {
+				minHeight: '52px',
+			},
 		},
-		{			
-			'id' : "2",
-			'category' : "Pegante",
-			'name': "Urano Spray",
-			'cash': "20.60",		
-			'credit': "15.60",		
-			'distrib': "14.20",	
-			'descrip' : "Urano pegante spray caneca",
-			'unidad' : "Litros",
-			'disp' : "0"
+		headCells: {
+			style: {
+				padding: '10px',
+				fontSize: '0.9rem',
+				fontWeight: 'bold',
+				background: 'rgba(236, 240, 241 ,0.4)', 
+			},
 		},
-	];
+		cells: {
+			style: {
+				padding: '15px',	
+			},
+		},
+	}
 
-	function routeChange(view) {
-		if(view==="add"){
-			history(`${process.env.PUBLIC_URL}/products/add-product`);
-		}
-		if(view==="edit"){
-			history(`${process.env.PUBLIC_URL}/products/add-product`);
-		}
-		if(view==="view"){
-			history(`${process.env.PUBLIC_URL}/products/product-detail`);
-		}
+	const ExpandedComponent = ({ data }) => (
+		<div style={{margin: '10px', marginLeft:'50px',padding: '1opx'}}><span><h2 style={{fontSize: '12px'}}>Descripcion:</h2><p>{JSON.stringify(data.descrip, null, 2)}</p></span></div>		
+	)
+	
+	useEffect(()=>{
+        requestGet();
+    },[])	
 
+	useEffect(()=>{
+		const result = data.filter(name =>{
+			return name.name.toLowerCase().match(search.toLowerCase());
+		});
+
+		setFiltered(result);
+	},[search])
+
+	function routeChange() {
+		history(`${process.env.PUBLIC_URL}/products/add-product`);
 	};
 
 	return (
@@ -215,12 +274,11 @@ const Product_list = () => {
 							<CardBody>
 								<div className="col-6 pull-left">									
 									<Input
-										className="form-control"
-										id=""
 										type="text"
-										required=""
-										placeholder="Buscar"
-									/>								
+										placeholder="Ingresa un nombre"
+										value={search}
+										onChange={(e) => setSearch(e.target.value)}
+									/>									
 								</div>
 								<div className="btn-popup pull-right">
 									<Button
@@ -229,20 +287,22 @@ const Product_list = () => {
 										data-toggle="modal"
 										data-original-title="test"
 										data-target="#exampleModal"
-										onClick={() => routeChange("add")}
+										onClick={() => routeChange()}
 									>
 										Agregar Producto
 									</Button>									
 								</div>
 								<div className="clearfix"></div>
-								<div id="basicScenario" className="product-physical">
+								<div>
 									<DataTable
 										columns={col}
-										data={data}
-										multiSelectOption={false}
+										data={filtered}
 										pageSize={10}
+										expandableRows
 										pagination={true}
-										class="-striped -highlight"
+										expandableRowsComponent={ExpandedComponent}
+										customStyles={customStyles}
+										noDataComponent="No hay datos para mostrar"
 									/>
 								</div>
 							</CardBody>

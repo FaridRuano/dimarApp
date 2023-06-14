@@ -17,26 +17,19 @@ export const MENUITEMS = [
     },
     {
         title: 'Clientes', icon: Users , type: 'sub', active: false, children: [
-            { path: '/clients/list-clients', title: 'Lista de Clientes', type: 'link' },
-            { path: '/clients/create-client', title: 'Crear Cliente', type: 'link' },
-            { path: '/clients/list-deu', title: 'Lista de Deudas', type: 'link' },
-            { path: '/clients/create-pay', title: 'Agregar Abono', type: 'link' },
+            { path: '/clients/list-clients', title: 'Clientes', type: 'link' },
+            { path: '/clients/create-client', title: 'Crear cliente', type: 'link' },
+            { path: '/clients/list-deu', title: 'Deudas', type: 'link' },
+            { path: '/clients/create-pay', title: 'Crear abono', type: 'link' },
         ]
     }, 
     {
         title: 'Productos', icon: Box, type: 'sub', active: false, children: [
-            { path: '/products/category-list', title: 'Lista de Categorias', type: 'link' },            
-            { path: '/products/add-category', title: 'Agregar Categoria', type: 'link' },                                
-            { path: '/products/product-list', title: 'Lista de Productos', type: 'link' },
-            { path: '/products/add-product', title: 'Agregar Producto', type: 'link' },            
-        ]
-    },    
-    {
-        title: 'Ventas', icon: DollarSign, type: 'sub', active: false, children: [
-            { path: '/sales/orders', title: 'Ventas', type: 'link' },
-            { path: '/sales/add-sale', title: 'Nueva Venta', type: 'link' },
-            { path: '/sales/transactions', title: 'Transacciones', type: 'link' },
-            { path: '/sales/add-transaction', title: 'Nueva Transaccion', type: 'link' },
+            { path: '/products/category-list', title: 'Categorias', type: 'link' },            
+            { path: '/products/add-category', title: 'Crear categoria', type: 'link' },                                
+            { path: '/products/product-list', title: 'Productos', type: 'link' },
+            { path: '/products/add-product', title: 'Crear producto', type: 'link' },            
+            { path: '/stock/product-stock', title: 'Stock', type: 'link' },                        
         ]
     },    
     {

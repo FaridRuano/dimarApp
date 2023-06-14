@@ -1,0 +1,60 @@
+.row-vars {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+.title-var {
+    padding: 10px;
+    border-radius: 3px;
+    color: white;
+    background-color: #1a4781;
+    width: fit-content;
+}
+
+.fbtn {
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    color: white;
+    background-color: #32b9f7;
+    transition: ease-out .3s;
+}
+
+.fbtn:hover {
+    transform: scale(1.03) translateY(-3px);
+    background-color: #4f5a5f;
+    color: white;
+}
+
+.non-wrap {
+    white-space: nowrap;
+}
+
+.select-btn {
+    background-color: #32b9f7;
+    width: 40px;
+}
+
+.acept-btn {
+    background-color: #0b5679;
+    margin-top: 5px;
+}
+
+.left {
+    display: flex;    
+    justify-content: end;
+}
+
+.low-text {
+    color: #585757;
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
+.bold-text {
+    color: #131212;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
