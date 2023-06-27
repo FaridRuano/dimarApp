@@ -12,14 +12,14 @@ import {
 	Input,
 	Row,
 } from "reactstrap";
-import {  useNavigate } from "react-router-dom";
+import {  Link, useNavigate } from "react-router-dom";
 import axios from 'axios'
-
+import ApiUrls from "../../constants/api-urls";
 
 
 const Clients = () => {
 		
-	const baseUrl = "http://localhost:8080/modelsDimar/models/di_clients/clients.php";
+	const baseUrl = ApiUrls.cliUrl;
 	const history = useNavigate();
 	const [search, setSearch] = useState("");
     const [data, setData] = useState([]);		 
@@ -33,7 +33,9 @@ const Clients = () => {
 					<span onClick={(e) => {						
 						if (window.confirm("Estas seguro que deseas eliminar?"))
 						requestDelete(row.id);
-					}}>
+					}}
+						style={{cursor: 'pointer'}}
+					>
 						<i
 							className="fa fa-trash"
 							style={{
@@ -44,75 +46,85 @@ const Clients = () => {
 							}}
 						></i>
 					</span>
-
-					<span>
-						<i
-							onClick={() => routeChange("edit")}
-							className="fa fa-pencil"
-							style={{
-								width: 35,
-								fontSize: 20,
-								padding: 11,
-								color: "rgb(40, 167, 69)",
-							}}
-						></i>						
-					</span>
+					<Link to={`/clients/create-client/${row.id}`}>
+						<span style={{cursor: 'pointer'}}>
+							<i							
+								className="fa fa-pencil"
+								style={{
+									width: 35,
+									fontSize: 20,
+									padding: 11,
+									color: "rgb(40, 167, 69)",
+								}}
+							></i>						
+						</span>
+					</Link>
+					
 				</div>				
 					
 			),
-			width: '120px',
 			center: true,
 
 		},	
 		{
 			name: 'Cédula',
 			selector: row => row.ced,
-			center: true,
-			width: '150px'		
 
 		},
 		{
 			name: 'Nombre',
 			selector: row => row.name,
-			center: true,
-			width: '150px'		
 
-		},
-		{
-			name: 'Email',
-			selector: row => row.email,
-			wrap: true,
-			center: true,
-			width: '220px',
-
-		},
-		{
-			name: 'Telefono',
-			selector: row => row.phone,
-			center: true,
-			width: '120px',
-		},
-		{
-			name: 'Dirección',
-			selector: row => row.direc,
-			wrap: true,
-			center: true,
-			width: '220px',
 		},
 		{
 			name: 'Código',
 			selector: row => row.cod,
 			center: true,
-			width: '100px',
 		},
 		{
 			name: <span><i className="fa fa-user"/>Vendedor</span>,
 			selector: row => row.saler,
 			center: true,
-			width: '150px',
 		},
 
 	]
+
+	const expComp = ({ data }) => (
+		<div style={{margin: '20px 0 10px 50px',padding: '1opx', display: 'flex', flexDirection : 'column', gap: '.5rem'}}>
+			<Row>
+				<Col>
+					<h2 style={{fontSize: '12px'}}>Email:</h2>
+				</Col>
+				<Col>
+					<span>{data.email}</span>
+				</Col>
+			</Row>
+			<Row>
+				<Col>
+					<h2 style={{fontSize: '12px'}}>Telefono:</h2>
+				</Col>
+				<Col>
+					<span>{data.phone}</span>
+				</Col>
+			</Row>
+			<Row>
+				<Col>
+					<h2 style={{fontSize: '12px'}}>Ciudad:</h2>
+				</Col>
+				<Col>
+					<span>{data.city}</span>		
+				</Col>
+			</Row>
+			<Row>
+				<Col>
+					<h2 style={{fontSize: '12px'}}>Dirección:</h2>
+				</Col>
+				<Col>
+					<span>{data.direc}</span>		
+				</Col>
+			</Row>
+		</div>		
+	)
 
 	const requestGet=async()=>{
         await axios.get(baseUrl).then(response=>{
@@ -192,7 +204,9 @@ const Clients = () => {
 										data={filtered}
 										pageSize={10}
 										pagination={true}
-										noDataComponent="No hay datos para mostrar" 										
+										noDataComponent="No hay datos para mostrar" 
+										expandableRows
+										expandableRowsComponent={expComp}										
 									/>
 								</div>
 							</CardBody>

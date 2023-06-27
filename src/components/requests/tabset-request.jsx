@@ -9,10 +9,10 @@ import { toast,ToastContainer } from "react-toastify";
 
 const TabsetPage = () => {
 
-	const reqUrl = "http://localhost:8080/modelsDimar/models/di_requests/requests.php"
-	const cliUrl = "http://localhost:8080/modelsDimar/models/di_clients/clients.php"
-	const proUrl = "http://localhost:8080/modelsDimar/models/di_products/products.php"
-	const varsUrl = "http://localhost:8080/modelsDimar/models/di_products/variations.php"
+	const reqUrl = "http://localhost/modelsDimar/models/di_requests/requests.php"
+	const cliUrl = "http://localhost/modelsDimar/models/di_clients/clients.php"
+	const proUrl = "http://localhost/modelsDimar/models/di_products/products.php"
+	const varsUrl = "http://localhost/modelsDimar/models/di_products/variations.php"
 
 	const [proData, setProData] = useState([])
 	const [varsData, setVarsData] = useState([])

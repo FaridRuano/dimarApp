@@ -12,9 +12,9 @@ import SwitchButton from "../common/utils/switch-btn";
 import { Layers, Shuffle } from "react-feather";
 
 const Stock = () => {
-	const proUrl = "http://localhost:8080/modelsDimar/models/di_products/products.php"
-	const varsUrl = "http://localhost:8080/modelsDimar/models/di_products/variations.php"
-  const stoUrl = "http://localhost:8080/modelsDimar/models/di_products/stock.php"
+	const proUrl = "http://localhost/modelsDimar/models/di_products/products.php"
+	const varsUrl = "http://localhost/modelsDimar/models/di_products/variations.php"
+  const stoUrl = "http://localhost/modelsDimar/models/di_products/stock.php"
 
   const [id, setId] = useState()
   const [unit, setUnit] = useState()

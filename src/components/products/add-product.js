@@ -11,9 +11,9 @@ import axios from 'axios'
 const Add_product = () => {
 
 	const {id = ''}=useParams();
-	const cateUrl = 'http://localhost:8080/modelsDimar/models/di_products/categories.php'
-	const prodUrl = 'http://localhost:8080/modelsDimar/models/di_products/products.php'
-	const editUrl = `http://localhost:8080/modelsDimar/models/di_products/products.php?id=${id}`
+	const cateUrl = 'http://localhost/modelsDimar/models/di_products/categories.php'
+	const prodUrl = 'http://localhost/modelsDimar/models/di_products/products.php'
+	const editUrl = `http://localhost/modelsDimar/models/di_products/products.php?id=${id}`
 	const history = useNavigate();
 	const [data, setData] = useState([]);
 	const [edit, setEdit] = useState(false);

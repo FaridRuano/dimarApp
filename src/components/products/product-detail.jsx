@@ -10,8 +10,8 @@ import axios from 'axios'
 const Product_detail = () => {
 
 	const {id}=useParams()
-	const baseUrl = `http://localhost:8080/modelsDimar/models/di_products/products.php?METHOD=DETAIL&id=${id}`
-	const colorsUrl = 'http://localhost:8080/modelsDimar/models/di_products/variations.php'
+	const baseUrl = `http://localhost/modelsDimar/models/di_products/products.php?METHOD=DETAIL&id=${id}`
+	const colorsUrl = 'http://localhost/modelsDimar/models/di_products/variations.php'
 
     const [data, setData] = useState([])
 	const [colors, setColors] = useState([])

@@ -8,7 +8,7 @@ import { NumericFormat } from 'react-number-format';
 
 
 const TabsetUser = () => {
-	const baseUrl = "http://localhost:8080/modelsDimar/models/di_users/users.php";
+	const baseUrl = "http://localhost/modelsDimar/models/di_users/users.php";
 	const history = useNavigate();
 	const [data, setData] = useState([]);	
  	

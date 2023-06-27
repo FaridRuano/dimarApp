@@ -16,13 +16,8 @@ export const MENUITEMS = [
         path: '/dashboard', title: 'Inicio', icon: Home, type: 'link', badgeType: 'primary', active: false
     },
     {
-        title: 'Clientes', icon: Users , type: 'sub', active: false, children: [
-            { path: '/clients/list-clients', title: 'Clientes', type: 'link' },
-            { path: '/clients/create-client', title: 'Crear cliente', type: 'link' },
-            { path: '/clients/list-deu', title: 'Deudas', type: 'link' },
-            { path: '/clients/create-pay', title: 'Crear abono', type: 'link' },
-        ]
-    }, 
+        title: 'Clientes',path:'/clients/list-clients', icon: Users, type: 'link', active: false
+    },    
     {
         title: 'Productos', icon: Box, type: 'sub', active: false, children: [
             { path: '/products/category-list', title: 'Categorias', type: 'link' },            

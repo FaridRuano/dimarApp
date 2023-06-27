@@ -4,12 +4,13 @@ import Breadcrumb from "../common/breadcrumb";
 import {  useNavigate } from "react-router-dom";
 import axios from 'axios'
 import { toast,ToastContainer } from "react-toastify";
+import ApiUrls from "../../constants/api-urls";
 
 const Add_category = () => {
 
-	const baseUrl = 'http://localhost:8080/modelsDimar/models/di_products/categories.php'
-	const history = useNavigate();
-	const [data, setData] = useState([]);
+	const baseUrl = ApiUrls.cateUrl
+	const history = useNavigate()
+	const [data, setData] = useState([])
 
 	const requestGet=async()=>{
         await axios.get(baseUrl).then(response=>{

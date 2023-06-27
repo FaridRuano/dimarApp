@@ -34,8 +34,6 @@ import Listrequests from '../components/requests/list-requests'
 /* Clients */
 import Addclient from '../components/clients/create-client'
 import Clients from '../components/clients/list-clients'
-import Listdeu from '../components/clients/list-deu'
-import Addpay from '../components/clients/create-pay'
 
 /* Mensajes */
 import Messages from '../components/messages/messages'
@@ -52,20 +50,12 @@ const LayoutRoutes = () => {
 
 						{/* CLIENTES */}
 						<Route
-							path={`${process.env.PUBLIC_URL}/clients/create-client`}
+							path={`${process.env.PUBLIC_URL}/clients/create-client/:id?`}
 							element={<Addclient />}
 						/>
 						<Route
 							path={`${process.env.PUBLIC_URL}/clients/list-clients`}
 							element={<Clients />}
-						/>
-						<Route
-							path={`${process.env.PUBLIC_URL}/clients/create-pay`}
-							element={<Addpay />}
-						/>
-						<Route
-							path={`${process.env.PUBLIC_URL}/clients/list-deu`}
-							element={<Listdeu />}
 						/>
 
 						{/* PRODUCTOS */}

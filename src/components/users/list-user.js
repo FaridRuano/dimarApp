@@ -18,7 +18,7 @@ import {  useNavigate } from "react-router-dom";
 
 
 const List_Users = () => {
-	const baseUrl = "http://localhost:8080/modelsDimar/models/di_users/users.php";
+	const baseUrl = "http://localhost/modelsDimar/models/di_users/users.php";
 	const history = useNavigate();
 	const [search, setSearch] = useState("");
     const [data, setData] = useState([]);		 

@@ -25,7 +25,7 @@ import axios from 'axios'
 
 const Category = () => {
 		
-	const baseUrl = "http://localhost:8080/modelsDimar/models/di_products/categories.php";
+	const baseUrl = "http://localhost/modelsDimar/models/di_products/categories.php";
 	const history = useNavigate();
 	const [search, setSearch] = useState("");
     const [data, setData] = useState([]);		 

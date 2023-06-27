@@ -19,7 +19,7 @@ import axios from 'axios'
 
 const Product_list = () => {		
 
-	const baseUrl = "http://localhost:8080/modelsDimar/models/di_products/products.php";
+	const baseUrl = "http://localhost/modelsDimar/models/di_products/products.php";
 	const history = useNavigate();
 	const [search, setSearch] = useState("");
     const [data, setData] = useState([]);		 

@@ -2,20 +2,19 @@ import React, { Fragment, useState, useEffect } from "react";
 import axios from 'axios';
 import { toast,ToastContainer } from "react-toastify";
 import { NumericFormat } from 'react-number-format';
-import {  useNavigate } from "react-router-dom";
+import {  useNavigate, useParams } from "react-router-dom";
 import { Button, Card, CardBody, CardHeader, Col, Container, FormGroup, Input, Label, Row } from "reactstrap";
 import Breadcrumb from "../common/breadcrumb";
+import ApiUrls from "../../constants/api-urls";
 
 const Add_client = () => {
-	const baseUrl = "http://localhost:8080/modelsDimar/models/di_clients/clients.php";
+
+    const {id = ''}=useParams();
+
+	const baseUrl = ApiUrls.cliUrl;
     const history = useNavigate();
 	const [data, setData] = useState([]);
-
-    const requestGet=async()=>{
-        await axios.get(baseUrl).then(response=>{
-            setData(response.data);
-        })
-    }
+    const [edit, setEdit] = useState(false)
 
     const [client, setClient] = useState({
 		ced: '',
@@ -28,6 +27,27 @@ const Add_client = () => {
 		cod: '',
 		saler: '1',
 	});
+
+    const requestGet=async()=>{
+        await axios.get(baseUrl).then(response=>{
+            setData(response.data);
+            let cli = response.data.find(obj => obj.id.toString() === id.toString())
+			
+			if(cli){
+				setEdit(true)
+				client.ced=cli.ced
+				let names = cli.name.toString().split(" ")
+				client.name = names[0]
+				client.last = names[1]
+                client.email=cli.email
+                client.phone=cli.phone
+                client.city=cli.city
+                client.direc=cli.direc
+                client.cod=cli.cod
+                client.saler=cli.saler_id
+			}
+        })
+    }
 
     const handleChange=e=>{		
 		const{name, value}=e.target;
@@ -154,6 +174,8 @@ const Add_client = () => {
                                             decimalScale={0}
                                             allowLeadingZeros
                                             onChange={handleChange}
+                                            displayType={edit?"text":''}
+                                            value={client.ced || ''}
                                             />												
                                     </div>																			
                                 </div>	
@@ -167,6 +189,7 @@ const Add_client = () => {
                                             maxLength={49}																
                                             name="name"
                                             onChange={handleChange}
+                                            value={client.name || ''}
                                         />
                                     </div>
                                 </div>	
@@ -180,6 +203,7 @@ const Add_client = () => {
                                             maxLength={49}																
                                             name="last"
                                             onChange={handleChange}
+                                            value={client.last || ''}
                                         />
                                     </div>
                                 </div>	
@@ -193,6 +217,7 @@ const Add_client = () => {
                                             maxLength={99}																
                                             name="email"
                                             onChange={handleChange}
+                                            value={client.email || ''}
                                         />
                                     </div>
                                 </div>
@@ -210,6 +235,7 @@ const Add_client = () => {
                                             decimalScale={0}
                                             allowLeadingZeros
                                             onChange={handleChange}
+                                            value={client.phone || ''}
                                             />												
                                     </div>																			
                                 </div>
@@ -223,6 +249,7 @@ const Add_client = () => {
                                             maxLength={249}																
                                             name="direc"
                                             onChange={handleChange}
+                                            value={client.direc || ''}
                                         />
                                     </div>
                                 </div>
@@ -236,6 +263,7 @@ const Add_client = () => {
                                             maxLength={100}
                                             name="city"
                                             onChange={handleChange}
+                                            value={client.city || ''}
                                         />
                                     </div>
                                 </div>
@@ -249,6 +277,7 @@ const Add_client = () => {
                                             maxLength={10}																
                                             name="cod"
                                             onChange={handleChange}
+                                            value={client.cod || ''}
                                         />
                                     </div>
                                 </div>
