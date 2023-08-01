@@ -3,8 +3,7 @@ import { Button, Card, CardBody, CardHeader, Col, Form, Input, Label, Row } from
 import {  Link, useNavigate, useParams } from "react-router-dom";
 import './style.scss'
 import ApiUrls from "../../../constants/api-urls";
-import { NumericFormat } from 'react-number-format';
-import { toast,ToastContainer } from "react-toastify";
+import { toast} from "react-toastify";
 import axios from 'axios';
 import { X } from "react-feather";
 import { UserContext } from "../../../constants/user-data"
@@ -212,7 +211,6 @@ const ModalPassword = ({isOpen, onChange }) => {
                 </CardBody>
             </Card>
         </div>
-        <ToastContainer theme='colored'/>
     </Fragment>
   )
 }

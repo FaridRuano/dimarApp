@@ -3,7 +3,7 @@ import { Button, Card, CardBody, CardHeader, Col, Container, FormGroup, Input, L
 import Breadcrumb from "../common/breadcrumb";
 import {  useNavigate } from "react-router-dom";
 import axios from 'axios'
-import { toast,ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import ApiUrls from "../../constants/api-urls";
 
 const Add_category = () => {
@@ -133,7 +133,6 @@ const Add_category = () => {
 					</Col>
 				</Row>
 			</Container>
-			<ToastContainer theme="colored"/>								
 		</Fragment>
 	);
 };

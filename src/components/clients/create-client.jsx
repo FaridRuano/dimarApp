@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import axios from 'axios';
-import { toast,ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { NumericFormat } from 'react-number-format';
 import {  useNavigate, useParams } from "react-router-dom";
 import { Button, Card, CardBody, CardHeader, Col, Container, FormGroup, Input, Label, Row } from "reactstrap";
@@ -15,10 +15,8 @@ const Add_client = () => {
 
     const { userData } = useContext(UserContext)
 	const baseUrl = ApiUrls.cliUrl;
-	const userUrl = ApiUrls.usersUrl;
     const history = useNavigate();
 	const [data, setData] = useState([]);
-	const [uData, setUData] = useState([]);
     const [edit, setEdit] = useState(false)
 
     const [client, setClient] = useState({
@@ -337,7 +335,6 @@ const Add_client = () => {
 					</Col>
 				</Row>
 			</Container>
-			<ToastContainer theme="colored"/>								
 		</Fragment>
 	);
 };

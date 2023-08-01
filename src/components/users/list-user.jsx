@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import Breadcrumb from "../common/breadcrumb";
 import "react-toastify/dist/ReactToastify.css";
 import DataTable from "react-data-table-component";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import {
 	Button,
 	Card,

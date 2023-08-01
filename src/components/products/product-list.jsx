@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import Breadcrumb from "../common/breadcrumb";
 import "react-toastify/dist/ReactToastify.css";
 import DataTable from "react-data-table-component";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import {  useNavigate, Link } from "react-router-dom";
 import {
 	Button,
@@ -14,35 +14,36 @@ import {
 	Row,
 } from "reactstrap";
 import axios from 'axios'
+import ApiUrls from "../../constants/api-urls";
 
 
 
 const Product_list = () => {		
 
-	const baseUrl = "http://localhost/modelsDimar/models/di_products/products.php";
-	const history = useNavigate();
-	const [search, setSearch] = useState("");
-    const [data, setData] = useState([]);		 
-	const [filtered, setFiltered] = useState([]);
+	const baseUrl = ApiUrls.prodUrl
+	const history = useNavigate()
+	const [search, setSearch] = useState("")
+    const [data, setData] = useState([])
+	const [filtered, setFiltered] = useState([])
 	
 	const requestGet=async()=>{
         await axios.get(baseUrl).then(response=>{
-            setData(response.data);
-			setFiltered(response.data);
+            setData(response.data)
+			setFiltered(response.data)
         })
     }
 
 	const requestDelete=async(id)=>{
-        var f = new FormData();
-        f.append("METHOD", "DELETE");
-		f.append("id", id);
+        var f = new FormData()
+        f.append("METHOD", "DELETE")
+		f.append("id", id)
         await axios.post(baseUrl, f).then(response=>{
-            setData(data.filter(row=>row.id!==id));
+            setData(data.filter(row=>row.id!==id))
         }).catch(error=>{
-          console.log(error);
+          console.log(error)
         })
-		toast.success("Eliminado Exitosamente!");
-        requestGet();
+		toast.success("Eliminado Exitosamente!")
+        requestGet()
     }
 
 	const col=[		
@@ -310,7 +311,6 @@ const Product_list = () => {
 					</Col>
 				</Row>
 			</Container>
-			<ToastContainer />
 			{/* <!-- Container-fluid Ends--> */}
 		</Fragment>
 	);

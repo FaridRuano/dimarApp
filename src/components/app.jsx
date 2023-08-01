@@ -3,6 +3,7 @@ import RightSidebar from "./common/right-sidebar";
 import Footer from "./common/footer";
 import Header from "./common/header_components/header";
 import { Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
 	
@@ -13,6 +14,7 @@ const App = () => {
 				<div className="page-body-wrapper">
 					<Sidebar />
 					<RightSidebar />
+					<ToastContainer theme="colored"/>								
 					<div className="page-body"><Outlet/></div>
 					<Footer />
 				</div>

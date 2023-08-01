@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import { Button, Form, FormGroup, Input, Label, Container, Col, Row, Card, CardBody } from "reactstrap";
 import {  useNavigate, Link } from "react-router-dom";
 import axios from 'axios';
-import { toast,ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { NumericFormat } from 'react-number-format';
 import Breadcrumb from "../common/breadcrumb";
 import ApiUrls from "../../constants/api-urls";

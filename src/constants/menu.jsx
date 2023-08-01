@@ -19,9 +19,7 @@ export const MENUITEMS = [
     {
         title: 'Productos', icon: Box, type: 'sub', active: false, children: [
             { path: '/products/category-list', title: 'Categorias', type: 'link' },            
-            { path: '/products/add-category', title: 'Crear categoria', type: 'link' },                                
             { path: '/products/product-list', title: 'Productos', type: 'link' },
-            { path: '/products/add-product', title: 'Crear producto', type: 'link' },            
             { path: '/stock/product-stock', title: 'Stock', type: 'link' },                        
         ]
     },    

@@ -5,16 +5,23 @@ import axios from 'axios'
 import { NumericFormat } from "react-number-format";
 import Autocomplete from '@mui/joy/Autocomplete';
 import './style.scss'
-import { toast,ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
+import ApiUrls from "../../constants/api-urls";
+import { useContext } from "react";
+import { UserContext } from "../../constants/user-data";
+import { useNavigate } from "react-router-dom";
 
 const TabsetPage = () => {
 
-	const reqUrl = "http://localhost/modelsDimar/models/di_requests/requests.php"
-	const cliUrl = "http://localhost/modelsDimar/models/di_clients/clients.php"
-	const proUrl = "http://localhost/modelsDimar/models/di_products/products.php"
-	const varsUrl = "http://localhost/modelsDimar/models/di_products/variations.php"
+	const reqUrl = ApiUrls.requUrl
+	const cliUrl = ApiUrls.cliUrl
+	const proUrl = ApiUrls.prodUrl
+	const varsUrl = ApiUrls.varsUrl
 
+	const {userData} = useContext(UserContext)
+    const history = useNavigate();
 	const [proData, setProData] = useState([])
+	const [reno, setReNo] = useState([])
 	const [varsData, setVarsData] = useState([])
 	const [reqData, setReqData] = useState([])
 	const [priceType, setPriceType] = useState('normal')
@@ -49,7 +56,7 @@ const TabsetPage = () => {
 	const hanPrice = e => {		
 		const value=e.target.value
 		setPriceType(value)					
-		setInputFields([{id: '', prod: '', var_id:'', var:'', disct:'', quant: '', u_price: '', total: '0.00' }])		
+		setInputFields([{id: '', prod: '', var_id:'', var:'', disct:'', quant: '', u_price: '', total: '0.00', iva: '' }])		
 		setIva('0.00')
 		setDeliver('')
 		setSubtotal('0.00')
@@ -57,7 +64,14 @@ const TabsetPage = () => {
 
 	}
 
-	const getAutoData=async()=>{
+	const getAutoData=async()=>{		
+		await axios.get(reqUrl+"?METHOD=NORE").then(response=>{
+			if(response.data.re_no){
+				setReNo(response.data.re_no)
+			}else{
+				setReNo('1')
+			}
+		})
 		await axios.get(cliUrl+"?METHOD=DATA").then(response=>{
 			setReqData(response.data)							
 		})
@@ -70,10 +84,10 @@ const TabsetPage = () => {
 	}	
 
 	/* InputFields code */
-	const [inputFields, setInputFields] = useState([{id: '', prod: '', var_id:'', var:'', disct:'', quant: '', u_price: '', total: '0.00' }])
+	const [inputFields, setInputFields] = useState([{id: '', prod: '', var_id:'', var:'', disct:'', quant: '', u_price: '', total: '0.00', iva: '' }])
 
 	const addInputFields = () => {
-	  setInputFields([...inputFields, {id: '', prod: '', var_id:'', var:'', disct:'', quant: '', u_price: '', total: '0.00' }]);
+	  setInputFields([...inputFields, {id: '', prod: '', var_id:'', var:'', disct:'', quant: '', u_price: '', total: '0.00', iva: '' }]);
 	}
   
 	const handleInputChange = (index, newValue, name) => {
@@ -98,13 +112,31 @@ const TabsetPage = () => {
 	}
   
 	const handleDeleteFields = (index) => {
-	  const values = [...inputFields];
-	  values.splice(index, 1);
-	  setInputFields(values);
+		const values = [...inputFields];
+		values.splice(index, 1);
+		setInputFields(values);
+
+		let z = 0;
+
+		values.forEach((obj) => {
+			z += Number(obj.total)
+		})
+
+		let i = (z*0.12).toFixed(2)
+		z=z.toFixed(2)
+		let t = Number(i) + Number(z) + Number(deliver)
+
+		setIva(i)
+		setSubtotal(z)
+		setTotal(t)
 	}
 
 	function emptyFields(){
 		let key = true
+
+		if(reno.length < 0){
+			key = false
+		}
 		if(inputFields.length > 0	){
 			if(ced === null || ced === '' || name === null || name === ''){
 				toast.error("Cliente Incompleto");
@@ -142,6 +174,7 @@ const TabsetPage = () => {
 			var f = new FormData();   
 			f.append("METHOD", "ADD");
 			f.append("ced", ced);
+			f.append("reno", reno)
 			f.append("p_type", priceType)
 			f.append("p_meth", req.p_meth);
 			f.append("city", req.city);
@@ -153,7 +186,8 @@ const TabsetPage = () => {
 			f.append("deliver", deliver)
 			f.append("iva", iva)
 			f.append("total", total);
-			f.append("products", inputFields)
+			f.append("items", JSON.stringify(inputFields))	
+					
 			await axios.post(reqUrl, f).then(response=>{
 				setReq({
 					p_meth: 'Efectivo',
@@ -166,18 +200,23 @@ const TabsetPage = () => {
 				});
 				setCed(null)
 				setName(null)
-				setPriceType('cash_p')
-				setInputFields([{id: '', prod: '', var_id:'', var:'', disct:'', quant: '', u_price: '', total: '0.00' }])
+				setPriceType('normal')
+				setInputFields([{id: '', prod: '', var_id:'', var:'', disct:'', quant: '', u_price: '', total: '0.00', iva: '' }])
 				setDeliver('')
 				setIva('0.00')
 				setTotal('0.00')
 				setSubtotal('0.00')
+				routeChange()
 				toast.success("Pedido registrado")
 			}).catch(error=>{
 			console.log(error);
 			});		
 		}
 	}
+
+	const routeChange = () => {
+		history(`${process.env.PUBLIC_URL}/requests/list-requests`);
+	};
 
 	useEffect(() => {
 		getAutoData()
@@ -197,9 +236,11 @@ const TabsetPage = () => {
 		return op_pro_var			
 	}
 
+	//Calcula el precio total sin iva
 	function calcPrice(pr_x, qu_x, di_x){
 		let iva = 1.12
 		let a = pr_x !== "" ? pr_x : 0
+		//Precio sin iva
 		a = a/iva
 		let b = qu_x !== "" ? qu_x : 0
 		let c = di_x !== "" ? di_x : 0
@@ -214,6 +255,26 @@ const TabsetPage = () => {
 
 		return r
 	}	
+
+	//Calcula unicamente el iva total de cada item
+	function calcIva(pr_x, qu_x, di_x){
+		let iva = 1.12
+		let a = pr_x !== "" ? pr_x : 0
+		//Precio sin iva
+		a = a/iva
+		let b = qu_x !== "" ? qu_x : 0
+		let c = di_x !== "" ? di_x : 0
+
+		let r 
+		if(c !== 0){
+			r = ((a * b)-(a * b)*(c/100)).toFixed(2)
+		}else{
+			r = (a * b).toFixed(2)
+		}	
+		r = r*0.12
+
+		return r.toFixed(2)
+	}
 
 	return (
 		<Fragment>
@@ -239,6 +300,8 @@ const TabsetPage = () => {
 										  const matchingReq = reqData.find(obj => obj.ced === newValue)
 										  if (matchingReq) {
 											setName(matchingReq.name)
+											setReq((prevState) => ({ ...prevState, dir: matchingReq.direc}))
+											setReq((prevState) => ({ ...prevState, city: matchingReq.city}))
 										  } else{
 											setName(null)
 										  }										
@@ -262,6 +325,8 @@ const TabsetPage = () => {
 											const matchingReq = reqData.find(obj => obj.name === newValue)
 											if (matchingReq) {
 												setCed(matchingReq.ced)
+												setReq((prevState) => ({ ...prevState, dir: matchingReq.direc}))
+												setReq((prevState) => ({ ...prevState, city: matchingReq.city}))
 											} else{
 												setCed(null)
 											}
@@ -286,7 +351,7 @@ const TabsetPage = () => {
 												value="normal"
 												name="price_type"
 											/>
-											PE
+											Efectivo
 										</Label>
 										<Label className="d-block">
 											<Input
@@ -297,7 +362,7 @@ const TabsetPage = () => {
 												value="credito"
 												name="price_type"
 											/>
-											PC
+											Credito
 										</Label>
 										<Label className="d-block">
 											<Input
@@ -308,7 +373,7 @@ const TabsetPage = () => {
 												value="distribuidor"
 												name="price_type"
 											/>
-											PD
+											Distribuidor
 										</Label>
 										<Label className="d-block">
 											<Input
@@ -319,7 +384,7 @@ const TabsetPage = () => {
 												value="plaza"
 												name="price_type"											
 											/>
-											PP
+											Plaza
 										</Label>
 										<Label className="d-block">
 											<Input
@@ -330,7 +395,7 @@ const TabsetPage = () => {
 												value="especial"
 												name="price_type"
 											/>
-											PS
+											Especial
 										</Label>
 									</FormGroup>									
 								</div>
@@ -443,12 +508,12 @@ const TabsetPage = () => {
 							</div>
 							<div className="form-group row">
 								<Label className="col-xl-3 col-md-4">
-									<span>*</span> Asesor
+									<span>*</span> Usuario
 								</Label>
 								<div className="col-xl-8 col-md-7 p-0">
 									<Input										
 										type="text"
-										value="Usuario"
+										value={userData?userData.name:'Cargando...'}
 										readOnly
 									/>
 								</div>
@@ -529,6 +594,7 @@ const TabsetPage = () => {
 																		break
 																}
 																handleInputChange(index,calcPrice(inputField.u_price,inputField.quant,inputField.disct),"total")
+																handleInputChange(index,calcIva(inputField.u_price,inputField.quant,inputField.disct),"iva")
 
 															} else{
 																handleInputChange(index,null,"id")
@@ -577,6 +643,7 @@ const TabsetPage = () => {
 														onChange={(e)=>{																														
 															handleInputChange(index,e.target.value,"disct")
 															handleInputChange(index,calcPrice(inputField.u_price,inputField.quant,inputField.disct),"total")
+															handleInputChange(index,calcIva(inputField.u_price,inputField.quant,inputField.disct),"iva")
 														}}
 														allowLeadingZeros={false}
 														isAllowed={(values) => {
@@ -601,7 +668,7 @@ const TabsetPage = () => {
 														onChange={(e)=>{																														
 															handleInputChange(index,e.target.value,"quant")															
 															handleInputChange(index,calcPrice(inputField.u_price,inputField.quant,inputField.disct),"total")
-
+															handleInputChange(index,calcIva(inputField.u_price,inputField.quant,inputField.disct),"iva")															
 														}}																																									
 													/>
 												</Col>
@@ -701,7 +768,6 @@ const TabsetPage = () => {
 					</Button>
 				</div>
 			</div>
-			<ToastContainer theme="colored"/>								
 		</Fragment>
 	);
 };

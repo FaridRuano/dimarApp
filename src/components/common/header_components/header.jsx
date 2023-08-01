@@ -102,18 +102,18 @@ const Header = () => {
 					<div className="nav-right col">
 						<ul className={"nav-menus " + (navMenus ? "open" : "")}>													
 							<li className="onhover-dropdown">
-								<Bell />
+								{/* <Bell />
 								<span className="badge rounded-pill badge-primary pull-right notification-badge">
 									3
 								</span>
 								<span className="dot"></span>
-								<Notification />
+								<Notification /> */}
 							</li>
 							<li style={{cursor: 'pointer'}}>
-								<a onClick={showRightSidebar}>
+								{/* <a onClick={showRightSidebar}>
 									<MessageSquare />
 									<span className="dot"></span>
-								</a>
+								</a> */}
 							</li>
 							<UserMenu />
 						</ul>

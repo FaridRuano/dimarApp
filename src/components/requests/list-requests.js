@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import Breadcrumb from "../common/breadcrumb";
 import "react-toastify/dist/ReactToastify.css";
 import DataTable from "react-data-table-component";
-import { ToastContainer, toast } from "react-toastify";
 import {  useNavigate } from "react-router-dom";
 import {
 	Button,
@@ -231,7 +230,6 @@ const Listrequests = () => {
 					</Col>
 				</Row>
 			</Container>
-			<ToastContainer />
 			{/* <!-- Container-fluid Ends--> */}
 		</Fragment>
 	);

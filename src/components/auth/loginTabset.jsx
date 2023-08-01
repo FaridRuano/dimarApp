@@ -7,10 +7,9 @@ import { useState } from "react"
 import axios from "axios"
 import ApiUrls from "../../constants/api-urls"
 import { useEffect } from "react"
-import { ToastContainer, toast } from "react-toastify"
 import { useContext } from "react"
 import { UserContext } from "../../constants/user-data"
-
+import {toast} from "react-toastify"
 
 const LoginTabset = () => {
 	const history = useNavigate();
@@ -59,7 +58,6 @@ const LoginTabset = () => {
 	return (
 		<div>
 			<Fragment>
-				<ToastContainer theme="colored"/>
 				<Tabs>
 					<TabList className="nav nav-tabs tab-coupon">
 						<Tab className="nav-link">

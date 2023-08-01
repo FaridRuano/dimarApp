@@ -6,12 +6,13 @@ import "../../assets/scss/slick-theme.scss"
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { Button, Card, Col, Container, Row } from "reactstrap"
 import axios from 'axios'
+import ApiUrls from "../../constants/api-urls"
 
 const Product_detail = () => {
 
 	const {id}=useParams()
-	const baseUrl = `http://localhost/modelsDimar/models/di_products/products.php?METHOD=DETAIL&id=${id}`
-	const colorsUrl = 'http://localhost/modelsDimar/models/di_products/variations.php'
+	const baseUrl = ApiUrls.prodUrl+`?METHOD=DETAIL&id=${id}`
+	const colorsUrl = ApiUrls.varsUrl
 
     const [data, setData] = useState([])
 	const [colors, setColors] = useState([])

@@ -1,19 +1,23 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useContext } from "react";
 import { Card, CardBody, CardHeader, Col, Container, FormGroup, Input, Label, Row } from "reactstrap";
 import Breadcrumb from "../common/breadcrumb";
 import axios from 'axios'
-import { toast,ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { Autocomplete } from "@mui/joy";
 import { NumericFormat } from "react-number-format";
 import './style.scss'
 import DataTable from "react-data-table-component";
 import SwitchButton from "../common/utils/switch-btn";
 import { Layers, Shuffle } from "react-feather";
+import ApiUrls from "../../constants/api-urls";
+import { UserContext } from "../../constants/user-data";
 
 const Stock = () => {
-	const proUrl = "http://localhost/modelsDimar/models/di_products/products.php"
-	const varsUrl = "http://localhost/modelsDimar/models/di_products/variations.php"
-  const stoUrl = "http://localhost/modelsDimar/models/di_products/stock.php"
+	const proUrl = ApiUrls.prodUrl
+	const varsUrl = ApiUrls.varsUrl
+  const stoUrl = ApiUrls.stocUrl
+
+  const { userData } = useContext(UserContext)
 
   const [id, setId] = useState()
   const [unit, setUnit] = useState()
@@ -76,7 +80,7 @@ const Stock = () => {
 		{
 			name: 'Usuario',
 			selector: row => row.us,
-			width: '130px',
+			width: '170px',
 		},
 		{
 			name: 'Fecha',
@@ -149,6 +153,7 @@ const Stock = () => {
         f.append("action", "SALIDA")
       }
       f.append("value", valStock)
+      f.append("userid", userData.id)
       f.append("stock", selected.stock)
       f.append("descr", descr)
 			await axios.post(stoUrl, f).then(
@@ -340,7 +345,6 @@ const Stock = () => {
           <Fragment></Fragment>
         )}
 			</Container>
-			<ToastContainer theme="colored"/>								
 		</Fragment>
 	);
 };

@@ -3,16 +3,17 @@ import Breadcrumb from "../common/breadcrumb";
 import { Button, Card, CardBody, Col, Container, FormGroup, Input, Label, Row } from "reactstrap";
 import {  useNavigate } from "react-router-dom";
 import { NumericFormat } from "react-number-format";
-import { toast,ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios'
+import ApiUrls from "../../constants/api-urls";
 
 const Add_product = () => {
 
 	const {id = ''}=useParams();
-	const cateUrl = 'http://localhost/modelsDimar/models/di_products/categories.php'
-	const prodUrl = 'http://localhost/modelsDimar/models/di_products/products.php'
-	const editUrl = `http://localhost/modelsDimar/models/di_products/products.php?id=${id}`
+	const cateUrl = ApiUrls.cateUrl
+	const prodUrl = ApiUrls.prodUrl
+	const editUrl = ApiUrls.prodUrl+`?id=${id}`
 	const history = useNavigate();
 	const [data, setData] = useState([]);
 	const [edit, setEdit] = useState(false);
@@ -404,7 +405,6 @@ const Add_product = () => {
 						</Card>
 				</Row>
 			</Container>
-			<ToastContainer/>
 		</Fragment>
 	);
 };
