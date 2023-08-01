@@ -121,15 +121,13 @@ const Add_category = () => {
 										</div>
 									</div>												
 									<FormGroup>
-                                    <div>
                                         <Button type="button" color="primary" onClick={()=>requestPost()}>
                                             Guardar
                                         </Button>
                                         <Button type="button" color="light" onClick={()=>routeChange()}>
                                             Descartar
                                         </Button>
-                                    </div>
-                                </FormGroup>															
+                                	</FormGroup>															
 							</CardBody>
 						</Card>
 					</Col>

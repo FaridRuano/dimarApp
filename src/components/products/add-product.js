@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
 import Breadcrumb from "../common/breadcrumb";
-import MyDropzone from "../common/dropzone";
 import { Button, Card, CardBody, Col, Container, FormGroup, Input, Label, Row } from "reactstrap";
 import {  useNavigate } from "react-router-dom";
 import { NumericFormat } from "react-number-format";

@@ -6,9 +6,7 @@ import {
     UserPlus,
     BarChart,
     Settings,
-    LogOut,
     Users,
-    Mail
 } from 'react-feather';
 
 export const MENUITEMS = [
@@ -35,18 +33,10 @@ export const MENUITEMS = [
         ]
     },     
     {
-        title: 'Usuarios', icon: UserPlus, type: 'sub', active: false, children: [
-            { path: '/users/list-user', title: 'Lista de Usuarios', type: 'link' },
-            { path: '/users/create-user', title: 'Agregar Usuario', type: 'link' },
-        ]
+        title: 'Usuarios', path: '/users/list-user', icon: UserPlus, type: 'link', active: false
     },  
     {
         title: 'Reportes',path:'/reports/report', icon: BarChart, type: 'link', active: false
     },
-    {
-        title: 'Configuraciones',path: '/settings/profile', icon: Settings, type: 'link', active: false
-    },    
-    {
-        title: 'Cerrar Sesion',path:'/auth/login', icon: LogOut, type: 'link', active: false
-    }
+      
 ]

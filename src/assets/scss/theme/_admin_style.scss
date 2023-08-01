@@ -2301,7 +2301,7 @@ $header-size: 80px;
       .profile-dropdown {
         right: -10px;
         left: inherit;
-        width: 150px;
+        width: 180px;
         top: 63px;
         &:before,
         &:after {
@@ -4026,8 +4026,9 @@ $i: 1;
         .nav-right {
           > ul {
             padding: 0 0;
-            justify-content: flex-start;
+            justify-content: flex-end;
             > li {
+              margin-right: 10px;
               &:first-child {
                 .search-form {
                   .form-group {
@@ -4360,3 +4361,22 @@ $i: 1;
 /*=====================
   Responsive CSS End
 ==========================*/
+
+/*=====================
+  Farid CSS Start
+==========================*/
+
+.button-container-2 {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.separator-20 {
+  height: 20px;
+  width: 20px;
+}
+
+.warn-text {
+  color: #e65a5a;
+  font-size: 12px;
+}

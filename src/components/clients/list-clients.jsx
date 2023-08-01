@@ -82,7 +82,7 @@ const Clients = () => {
 			center: true,
 		},
 		{
-			name: <span><i className="fa fa-user"/>Vendedor</span>,
+			name: <span>Vendedor</span>,
 			selector: row => row.saler,
 			center: true,
 		},

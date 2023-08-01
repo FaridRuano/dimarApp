@@ -6,14 +6,19 @@ import {  useNavigate, useParams } from "react-router-dom";
 import { Button, Card, CardBody, CardHeader, Col, Container, FormGroup, Input, Label, Row } from "reactstrap";
 import Breadcrumb from "../common/breadcrumb";
 import ApiUrls from "../../constants/api-urls";
+import { useContext } from "react";
+import { UserContext } from "../../constants/user-data";
 
 const Add_client = () => {
 
     const {id = ''}=useParams();
 
+    const { userData } = useContext(UserContext)
 	const baseUrl = ApiUrls.cliUrl;
+	const userUrl = ApiUrls.usersUrl;
     const history = useNavigate();
 	const [data, setData] = useState([]);
+	const [uData, setUData] = useState([]);
     const [edit, setEdit] = useState(false)
 
     const [client, setClient] = useState({
@@ -25,12 +30,13 @@ const Add_client = () => {
         city: '',
 		direc: '',
 		cod: '',
-		saler: '1',
+		salerid: '',
+        saler: '',
 	});
 
     const requestGet=async()=>{
         await axios.get(baseUrl).then(response=>{
-            setData(response.data);
+            setData(response.data)
             let cli = response.data.find(obj => obj.id.toString() === id.toString())
 			
 			if(cli){
@@ -44,9 +50,29 @@ const Add_client = () => {
                 client.city=cli.city
                 client.direc=cli.direc
                 client.cod=cli.cod
-                client.saler=cli.saler_id
+                client.salerid=cli.salerid
+                client.saler=cli.saler
 			}
         })
+    }
+
+    function getSaler(){
+        let saleMan 
+        if(client.salerid === null){
+            let cli = data.find(obj => obj.id.toString() === id.toString())
+            if(cli){
+                saleMan = cli.saler
+            }
+        }else{
+            if(userData){
+                client.saler = userData.name
+                client.salerid = userData.id
+                saleMan = userData.name
+            }else{
+                saleMan = 'Usuario'
+            }
+        }
+        return saleMan
     }
 
     const handleChange=e=>{		
@@ -129,7 +155,8 @@ const Add_client = () => {
 			f.append("city", client.city);
 			f.append("direc", client.direc);
 			f.append("cod", client.cod);
-			f.append("saler", client.saler);
+
+			f.append("saler", client.salerid);
 			f.append("METHOD", "ADD");
 			await axios.post(baseUrl, f).then(response=>{
 				setClient('');
@@ -290,12 +317,12 @@ const Add_client = () => {
                                             className="form-control"
                                             type="text"
                                             readOnly
-                                            value="Usuario"
+                                            value={getSaler()}
                                             name="saler"
                                         />
                                     </div>
                                 </div>                                
-                                <FormGroup>
+                                <di>
                                     <div>
                                         <Button type="button" color="primary" onClick={()=>requestPost()}>
                                             Guardar
@@ -304,7 +331,7 @@ const Add_client = () => {
                                             Descartar
                                         </Button>
                                     </div>
-                                </FormGroup>															
+                                </di>															
 							</CardBody>
 						</Card>
 					</Col>

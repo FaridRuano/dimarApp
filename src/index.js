@@ -4,15 +4,18 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.scss";
 import Routers from './routes'
 import PerfectScrollbar from "react-perfect-scrollbar";
+import { UserProvider } from "./constants/user-data";
 
 const Root = () => {
 	return (
 		<React.StrictMode>
-		<BrowserRouter basename={"/"}>
-			<PerfectScrollbar>
-				<Routers />
-			</PerfectScrollbar>
-		</BrowserRouter>
+			<UserProvider>
+				<BrowserRouter basename={"/"}>
+					<PerfectScrollbar>
+						<Routers />
+					</PerfectScrollbar>
+				</BrowserRouter>
+			</UserProvider>
 		</React.StrictMode>
 	);
 };

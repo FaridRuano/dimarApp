@@ -1,9 +1,7 @@
 import React, { Fragment } from "react";
 
-import designer from "../../assets/images/dashboard/designer.jpg";
 import Breadcrumb from "../common/breadcrumb";
-import { Card, CardBody, Col, Container, Media, Row, Button, Input, FormGroup, CardHeader } from "reactstrap";
-import { Icon } from "@mui/material";
+import { Card, CardBody, Col, Container, Row, Input, FormGroup, CardHeader } from "reactstrap";
 
 
 const Messages = () => {

@@ -1,8 +1,7 @@
 import React, { Fragment } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import App from '../components/app'
-import Datatable from '../components/common/datatable'
-import Dashboard from '../components/dashboard'
+import Dashboard from '../components/dashboard/dashboard'
 
 /* Configuraciones */
 import Profile from '../components/settings/profile'
@@ -126,11 +125,6 @@ const LayoutRoutes = () => {
 						<Route 
 							path={`${process.env.PUBLIC_URL}/settings/edit-user`}
 							element={<Edituser />}
-						/>
-		
-						<Route
-							path={`${process.env.PUBLIC_URL}/data-table`}
-							element={<Datatable />}
 						/>
                 </Route>
         </Routes>
