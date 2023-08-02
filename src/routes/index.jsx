@@ -2,6 +2,7 @@ import React,{ Fragment } from "react"
 import { Route, Routes } from "react-router-dom"
 import Login from "../components/auth/login"
 import LayoutRoutes from "./LayoutRoutes"
+import { ToastContainer } from "react-toastify";
 
 const Routers =() =>{
 
@@ -16,6 +17,8 @@ const Routers =() =>{
 					/>
                     <Route path={`/*`} element={<LayoutRoutes />} />
             </Routes>
+			<ToastContainer theme="colored"/>								
+
         </Fragment>
     )
 }

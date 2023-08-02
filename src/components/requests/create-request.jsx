@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { Card, CardBody, CardHeader, Col, Container, Row } from "reactstrap";
+import { Card, CardBody, CardHeader, Container } from "reactstrap";
 import Breadcrumb from "../common/breadcrumb";
 import TabsetPage from "./tabset-request";
 import { useEffect } from "react";
@@ -20,16 +20,18 @@ const Create_request = () => {
 	}
 
 	const FormatedReno = () => {
-		let zAdd = 5-reno.length
-		let no = '0'.repeat(zAdd) + reno
+		const desiredLength = 5;
+		const paddedString = String(reno).padStart(desiredLength, '0');
+		
 		return (
-			<span>{no}</span>
+			<span>{paddedString}</span>
 		)
 	}
 
 	useEffect(()=>{
 		getReNo()
 	},[])
+
 	return (
 		<Fragment>
 			<Breadcrumb title="Crear Pedido"/>
@@ -38,11 +40,12 @@ const Create_request = () => {
 					<CardHeader>
 						<h5>Pedido No. {
 							reno === null ? (
-								'001'
-							):(
+								'Cargando...'
+							):(								
 								<FormatedReno/>
 							)
 						}</h5>
+						
 					</CardHeader>
 					<CardBody>
 						<TabsetPage />

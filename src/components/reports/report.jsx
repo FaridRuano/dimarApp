@@ -1,8 +1,9 @@
 import React from 'react'
+import BuildingComp from '../common/utils/building/building-comp'
 
 const Reports = () => {
   return (
-	<div>Reports</div>
+    <BuildingComp/>
   )
 }
 

@@ -7,17 +7,9 @@ import {
 	Button,
 	Card,
 	CardBody,
-	CardHeader,
 	Col,
 	Container,
-	Form,
-	FormGroup,
 	Input,
-	Label,
-	Modal,
-	ModalBody,
-	ModalFooter,
-	ModalHeader,
 	Row,
 } from "reactstrap";
 import {  useNavigate } from "react-router-dom";
@@ -53,7 +45,7 @@ const Category = () => {
 
 	const col=[
 		{
-			name: "",		
+			name: "Opciones",		
 			cell: (row) => (
 				<div style={{textAlign:'center',cursor:'pointer'}}>
 					<span onClick={(e) => {						
@@ -72,7 +64,7 @@ const Category = () => {
 					</span>					
 				</div>									
 			),
-			width: '50px',
+			width: '150px',
 			center: true,
 		},
 		{

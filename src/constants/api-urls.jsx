@@ -7,6 +7,7 @@ const ApiUrls = {
     varsUrl: 'http://localhost/modelsDimar/models/di_products/variations.php',
     stocUrl: 'http://localhost/modelsDimar/models/di_products/stock.php',
     requUrl: 'http://localhost/modelsDimar/models/di_requests/requests.php',
+    obvsUrl: 'http://localhost/modelsDimar/models/di_requests/obvs.php',
     
   };
   

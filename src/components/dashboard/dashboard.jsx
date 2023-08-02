@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+import BuildingComp from '../common/utils/building/building-comp'
 
 const Dashboard = () => {
   return (
-	<div>Dashboard</div>
+    <Fragment>
+      <BuildingComp/>
+    </Fragment>
   )
 }
 

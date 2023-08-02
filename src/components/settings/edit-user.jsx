@@ -1,27 +1,68 @@
 import React, { Fragment, useState } from "react";
 import { Card, CardBody,  Col, Container, Row, Form, FormGroup, Input, Label, Button } from "reactstrap";
-import {  useNavigate, Link } from "react-router-dom";
+import {  Link, useNavigate } from "react-router-dom";
 import Breadcrumb from "../common/breadcrumb";
 import dayjs from "dayjs";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
-import { TextField } from '@mui/material';
 import { NumericFormat } from "react-number-format";
+import axios from "axios";
+import ApiUrls from "../../constants/api-urls";
+import { useContext } from "react";
+import { UserContext } from "../../constants/user-data";
+import { toast } from "react-toastify";
 
 const Edit_user = () => {
 	
+	const history = useNavigate();
 
-
+	const {userData, updateUser} = useContext(UserContext)
+	const [jsDay, setDayjs] = useState('')
 	const [birth, setBirth] = useState('')
 	const [phone, setPhone] = useState('')
-	const [gen, setGen] = useState('')
+	const [gen, setGen] = useState('M')
 	const [dir, setDir] = useState('')
 
 
 
-	const onChangeDate = (value) =>{		
-		setBirth(value)
+	const onChangeDate = (value) =>{
+		setDayjs(value)
+		setBirth(dayjs(jsDay).format('YYYY-MM-DD'))
+	}
+
+	const postInfo = async()=>{
+		if(birth!==''&&gen!==''&&phone!==''&&dir!==''&&userData){
+			var f = new FormData()
+			f.append('METHOD', 'UPDINFO')
+			f.append('nac', birth)
+			f.append('phone', phone)
+			f.append('dir', dir)
+			f.append('gen', gen)
+			f.append('id', userData.id)
+			await axios.post(ApiUrls.usersUrl, f).then(response =>{
+				if(response.data === true){
+                    axios.get(ApiUrls.usersUrl).then(response=>{
+                        const matchUser = response.data.find(us => us.id === userData.id)
+                        if(matchUser){
+                            updateUser(matchUser)
+							toast.success('Informacion Actualizada')
+							history(`${process.env.PUBLIC_URL}/settings/profile`);
+                        }else{
+
+							toast.error('Algo salio mal')
+						}
+                    })                    
+                }else{
+					toast.error('Algo salio mal')
+                }
+			}).catch(err=>{
+				toast.error('Algo salio mal')
+				console.log(err)
+			})
+		}else{
+			toast.error('Tienes campos incompletos')
+		}
 	}
 
 	return (
@@ -40,7 +81,6 @@ const Edit_user = () => {
 										</Label>
 										<div className="col-xl-8 col-md-7">
 											<NumericFormat  
-												className="form-control"
 												customInput={Input}
 												maxLength={10}												
 												allowNegative={false}
@@ -59,9 +99,13 @@ const Edit_user = () => {
 										</Label>
 										<div className="col-xl-8 col-md-7">
 											<Input
-												className="form-control"
 												type="text"
 												maxLength={250}
+												value={dir}
+												onChange={(e)=>{
+													let d = e.target.value
+													setDir(d)
+												}}
 											/>
 										</div>
 									</FormGroup>	
@@ -75,7 +119,12 @@ const Edit_user = () => {
 													<Input
 														className="radio_animated"
 														type="radio"
-														name="rdo-ani4"
+														name="gender"
+														value="M"
+														onChange={(e)=>{
+															let newVal = e.target.value
+															setGen(newVal)
+														}}
 														defaultChecked
 													/>
 													Masculino
@@ -84,7 +133,13 @@ const Edit_user = () => {
 													<Input
 														className="radio_animated"
 														type="radio"
-														name="rdo-ani4"
+														name="gender"
+														value="F"
+														onChange={(e)=>{
+															let newVal = e.target.value
+															setGen(newVal)
+														}}
+
 													/>
 													Femenino  
 												</Label>
@@ -92,7 +147,12 @@ const Edit_user = () => {
 													<Input
 														className="radio_animated"
 														type="radio"
-														name="rdo-ani4"
+														name="gender"
+														value="O"
+														onChange={(e)=>{
+															let newVal = e.target.value
+															setGen(newVal)
+														}}
 													/>
 													Otro
 												</Label>
@@ -110,7 +170,7 @@ const Edit_user = () => {
 												openTo="day"
 												minDate={dayjs('1960-01-01')}
 												views={['year','month', 'day']}
-												value={birth}
+												value={jsDay}
 												onChange={(newValue) => {
 												  onChangeDate(newValue)
 												}}
@@ -119,7 +179,7 @@ const Edit_user = () => {
 										</div>
 									</div>	
 									<FormGroup>
-									<Button type="button" color="primary">
+									<Button type="button" color="primary" onClick={()=>postInfo()}>
 										Guardar
 									</Button>
 									<Link to='/settings/profile'>

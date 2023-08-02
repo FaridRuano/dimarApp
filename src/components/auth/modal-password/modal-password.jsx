@@ -1,11 +1,9 @@
 import React, { Fragment,useState, useEffect, useContext } from "react";
-import { Button, Card, CardBody, CardHeader, Col, Form, Input, Label, Row } from "reactstrap";
-import {  Link, useNavigate, useParams } from "react-router-dom";
+import { Button, Card, CardBody, Col, Form, Input, Label, Row } from "reactstrap";
 import './style.scss'
 import ApiUrls from "../../../constants/api-urls";
 import { toast} from "react-toastify";
 import axios from 'axios';
-import { X } from "react-feather";
 import { UserContext } from "../../../constants/user-data"
 
 const ModalPassword = ({isOpen, onChange }) => {
@@ -33,6 +31,10 @@ const ModalPassword = ({isOpen, onChange }) => {
             res = false
             toast.error('Porfavor llena el formulario')
         }
+        if(data.some(item => item.usna === usna)){
+            res = false
+            toast.error('El nombre de usuario ya existe')
+        }
         return res
     }
 
@@ -49,7 +51,6 @@ const ModalPassword = ({isOpen, onChange }) => {
                 if(response.data === true){
                     axios.get(baseUrl).then(response=>{
                         const matchUser = response.data.find(us => us.id === savedData.id)
-                        console.log(matchUser)
                         if(matchUser){
                             updateUser(matchUser)
                         }
@@ -127,6 +128,7 @@ const ModalPassword = ({isOpen, onChange }) => {
                                     maxLength={50}
                                     name="uspa"		
                                     type="password"
+                                    autoComplete="off"
                                     invalid={ctrlPass}
                                     onChange={(e)=>{
                                         const { value } = e.target;
@@ -175,6 +177,7 @@ const ModalPassword = ({isOpen, onChange }) => {
                                     maxLength={50}
                                     type="password"
                                     name="uspaco"		
+                                    autoComplete="off"
                                     onChange={(e)=>{
                                         setUspaco(e.target.value)
                                         if(e.target.value === uspa){
@@ -185,6 +188,7 @@ const ModalPassword = ({isOpen, onChange }) => {
                                     }}
                                     value={uspaco}
                                     invalid={ctrlCoPass}
+                                
                                 />
                             </div>
                         </div>      

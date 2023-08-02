@@ -4380,3 +4380,58 @@ $i: 1;
   color: #e65a5a;
   font-size: 12px;
 }
+
+.status-txt {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.status-warp {
+  width: 150px;
+  padding: 5px 10px 5px 10px;
+  cursor: pointer;
+  color: white;
+  background-color: #272727;
+  border-radius: 5px;
+  transition: .3s ease-out;
+}
+
+.status-warp:hover{
+  transform: scale(1.05) translateY(-2px);
+}
+
+.status-box {
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+}
+
+/* Requests colors */
+.ingr {
+  background-color: #214abb; 
+}
+
+.veri {
+  background-color: #4398d1;
+}
+
+.auto {
+  background-color: #78d0d3;
+}
+
+.enpr {
+  background-color: #20a58f;
+}
+
+.fact {
+  background-color: #4f7969;
+}
+
+.desp {
+  background-color: #689981;
+}
+
+.entr,
+.envi {
+  background-color: #1db86a;
+}

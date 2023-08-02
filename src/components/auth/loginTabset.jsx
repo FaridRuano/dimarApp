@@ -39,12 +39,16 @@ const LoginTabset = () => {
 			const matchUser = users.find(us => us.usna === diUser)
 			if(matchUser){
 				if(matchUser.uspa === diPass){
+					toast.success('Bienvenido a Dimar App')
 					updateUser(matchUser)
 					routeChange()
+				}else{
+					toast.error('Credenciales incorrectas')
 				}
 			}else{
 				toast.error('Credenciales incorrectas')
 			}
+			
 		}
 	}
 
@@ -82,6 +86,7 @@ const LoginTabset = () => {
 									type="password"
 									className="form-control"
 									placeholder="Contraseña"
+									autoComplete="off"
 									onChange={(e)=>setDiPass(e.target.value)}
 								/>
 							</FormGroup>							

@@ -13,11 +13,6 @@ import { useNavigate } from "react-router-dom";
 
 const TabsetPage = () => {
 
-	const reqUrl = ApiUrls.requUrl
-	const cliUrl = ApiUrls.cliUrl
-	const proUrl = ApiUrls.prodUrl
-	const varsUrl = ApiUrls.varsUrl
-
 	const {userData} = useContext(UserContext)
     const history = useNavigate();
 	const [proData, setProData] = useState([])
@@ -42,7 +37,7 @@ const TabsetPage = () => {
 		s_meth: 'Fisica',
 		saler: '1',
 		descrip: '',
-		quant: '0',
+		quant: '0',		
 	})
 
 	const hanReq = e => {		
@@ -56,7 +51,7 @@ const TabsetPage = () => {
 	const hanPrice = e => {		
 		const value=e.target.value
 		setPriceType(value)					
-		setInputFields([{id: '', prod: '', var_id:'', var:'', disct:'', quant: '', u_price: '', total: '0.00', iva: '' }])		
+		setInputFields([{id: '', prod: '', var_id:'', var:'', disct:'', quant: '', u_price: '', total: '0.00', iva: '',stock:'' }])		
 		setIva('0.00')
 		setDeliver('')
 		setSubtotal('0.00')
@@ -65,29 +60,29 @@ const TabsetPage = () => {
 	}
 
 	const getAutoData=async()=>{		
-		await axios.get(reqUrl+"?METHOD=NORE").then(response=>{
+		await axios.get(ApiUrls.requUrl+"?METHOD=NORE").then(response=>{
 			if(response.data.re_no){
 				setReNo(response.data.re_no)
 			}else{
 				setReNo('1')
 			}
 		})
-		await axios.get(cliUrl+"?METHOD=DATA").then(response=>{
+		await axios.get(ApiUrls.cliUrl+"?METHOD=DATA").then(response=>{
 			setReqData(response.data)							
 		})
-		await axios.get(proUrl+"?METHOD=DATA").then(response=>{
+		await axios.get(ApiUrls.prodUrl+"?METHOD=DATA").then(response=>{
 			setProData(response.data)							
 		})		
-		await axios.get(varsUrl+"?METHOD=DATA").then(response=>{
+		await axios.get(ApiUrls.varsUrl+"?METHOD=DATA").then(response=>{
 			setVarsData(response.data)							
 		})
 	}	
 
 	/* InputFields code */
-	const [inputFields, setInputFields] = useState([{id: '', prod: '', var_id:'', var:'', disct:'', quant: '', u_price: '', total: '0.00', iva: '' }])
+	const [inputFields, setInputFields] = useState([{id: '', prod: '', var_id:'', var:'', disct:'', quant: '', u_price: '', total: '0.00', iva: '', stock:'' }])
 
 	const addInputFields = () => {
-	  setInputFields([...inputFields, {id: '', prod: '', var_id:'', var:'', disct:'', quant: '', u_price: '', total: '0.00', iva: '' }]);
+	  setInputFields([...inputFields, {id: '', prod: '', var_id:'', var:'', disct:'', quant: '', u_price: '', total: '0.00', iva: '', stock:'' }]);
 	}
   
 	const handleInputChange = (index, newValue, name) => {
@@ -181,14 +176,13 @@ const TabsetPage = () => {
 			f.append("dir", req.dir);
 			f.append("s_meth", req.s_meth);
 			f.append("saler", req.saler);
-			f.append("descrip", req.descrip);
-			f.append("quant", req.quant);
+			f.append("descrip", req.descrip);			
 			f.append("deliver", deliver)
 			f.append("iva", iva)
-			f.append("total", total);
+			f.append("total", Number(total).toFixed(2));
 			f.append("items", JSON.stringify(inputFields))	
 					
-			await axios.post(reqUrl, f).then(response=>{
+			await axios.post(ApiUrls.requUrl, f).then(response=>{
 				setReq({
 					p_meth: 'Efectivo',
 					city: '',
@@ -197,11 +191,12 @@ const TabsetPage = () => {
 					saler: '1',
 					descrip: '',
 					quant: '0',
+					stock: '',
 				});
 				setCed(null)
 				setName(null)
 				setPriceType('normal')
-				setInputFields([{id: '', prod: '', var_id:'', var:'', disct:'', quant: '', u_price: '', total: '0.00', iva: '' }])
+				setInputFields([{id: '', prod: '', var_id:'', var:'', disct:'', quant: '', u_price: '', total: '0.00', iva: '', stock:'' }])
 				setDeliver('')
 				setIva('0.00')
 				setTotal('0.00')
@@ -220,7 +215,7 @@ const TabsetPage = () => {
 
 	useEffect(() => {
 		getAutoData()
-	}, [])
+	},[])
 	
 	const op_ced = reqData.map(item => item.ced) 
 	const op_name = reqData.map(item => item.name) 
@@ -347,7 +342,7 @@ const TabsetPage = () => {
 												className="radio_animated"
 												type="radio"
 												onChange={hanPrice}
-												checked={priceType == "normal"}
+												checked={priceType === "normal"}
 												value="normal"
 												name="price_type"
 											/>
@@ -358,7 +353,7 @@ const TabsetPage = () => {
 												className="radio_animated"
 												type="radio"
 												onChange={hanPrice}
-												checked={priceType == "credito"}
+												checked={priceType === "credito"}
 												value="credito"
 												name="price_type"
 											/>
@@ -369,7 +364,7 @@ const TabsetPage = () => {
 												className="radio_animated"
 												type="radio"
 												onChange={hanPrice}
-												checked={priceType == "distribuidor"}
+												checked={priceType === "distribuidor"}
 												value="distribuidor"
 												name="price_type"
 											/>
@@ -380,7 +375,7 @@ const TabsetPage = () => {
 												className="radio_animated"
 												type="radio"	
 												onChange={hanPrice}
-												checked={priceType == "plaza"}
+												checked={priceType === "plaza"}
 												value="plaza"
 												name="price_type"											
 											/>
@@ -391,7 +386,7 @@ const TabsetPage = () => {
 												className="radio_animated"
 												type="radio"
 												onChange={hanPrice}
-												checked={priceType == "especial"}
+												checked={priceType === "especial"}
 												value="especial"
 												name="price_type"
 											/>
@@ -409,7 +404,7 @@ const TabsetPage = () => {
 												className="radio_animated"
 												type="radio"
 												name="p_meth"
-												checked={req.p_meth == "Efectivo"}
+												checked={req.p_meth === "Efectivo"}
 												onChange={hanReq}
 												value="Efectivo"
 											/>
@@ -420,7 +415,7 @@ const TabsetPage = () => {
 												className="radio_animated"
 												type="radio"
 												name="p_meth"
-												checked={req.p_meth == "Tarjeta"}
+												checked={req.p_meth === "Tarjeta"}
 												onChange={hanReq}
 												value="Tarjeta"
 											/>
@@ -431,7 +426,7 @@ const TabsetPage = () => {
 												className="radio_animated"
 												type="radio"
 												name="p_meth"
-												checked={req.p_meth == "Credito Int."}
+												checked={req.p_meth === "Credito Int."}
 												onChange={hanReq}
 												value="Credito Int."
 											/>
@@ -476,7 +471,7 @@ const TabsetPage = () => {
 												type="radio"
 												name="s_meth"
 												onChange={hanReq}
-												checked={req.s_meth == "Fisica"}
+												checked={req.s_meth === "Fisica"}
 												value="Fisica"
 											/>
 											Fisica
@@ -486,7 +481,7 @@ const TabsetPage = () => {
 												className="radio_animated"
 												type="radio"
 												name="s_meth"
-												checked={req.s_meth == "Encomienda"}
+												checked={req.s_meth === "Encomienda"}
 												onChange={hanReq}
 												value="Encomienda"
 											/>
@@ -497,7 +492,7 @@ const TabsetPage = () => {
 												className="radio_animated"
 												type="radio"
 												name="s_meth"
-												checked={req.s_meth == "Retiro Local"}
+												checked={req.s_meth === "Retiro Local"}
 												onChange={hanReq}
 												value="Retiro Local"
 											/>
@@ -564,12 +559,12 @@ const TabsetPage = () => {
 														value={inputField.prod}
 														onChange={(event, newValue) => {
 															handleInputChange(index,newValue,"prod")	
-															if(newValue == null){
+															if(newValue === null){
 																handleInputChange(index,'',"quant")
 																handleInputChange(index,'0.00',"total")
 
 															}else{
-																if(inputField.quant == ''){
+																if(inputField.quant === ''){
 																	handleInputChange(index,'1',"quant")																
 																}
 															}
@@ -601,6 +596,7 @@ const TabsetPage = () => {
 															}
 															handleInputChange(index, '', "var")															
 															handleInputChange(index, '', "var_id")
+															handleInputChange(index,'',"stock")
 
 															}}
 														options={op_pro_name}
@@ -620,9 +616,11 @@ const TabsetPage = () => {
 																.find(obj => obj.name === newValue)
 															if (matchingVar) {
 																handleInputChange(index,matchingVar.id,"var_id")
+																handleInputChange(index,matchingVar.stock,"stock")
 
 															} else{
 																handleInputChange(index,null,"var_id")
+																handleInputChange(index,'',"stock")
 															}
 														}}																									
 														options={loadProdVars(inputField.id)}

@@ -158,6 +158,7 @@ const Add_product = () => {
 						setColors([])
 						setProduct('')
 						routeChange()
+						toast.success('Producto agregado')
 					}
 				).catch(err=>{
 					console.log(err)
@@ -185,6 +186,7 @@ const Add_product = () => {
 						setColors([])
 						setProduct('')
 						routeChange()
+						toast.success('Producto editado')
 					}
 				).catch(err=>{
 					console.log(err)

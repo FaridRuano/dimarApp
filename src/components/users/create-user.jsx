@@ -92,6 +92,30 @@ const Create_user = () => {
 		return key;
 	}
 
+	function getCargo(cg){
+		switch(cg){
+			case 'GG':
+				return 'Gerente General'
+			case 'GC':
+				return 'Gerente Comercial'
+			case 'CA':
+				return 'Cajera'
+			case 'ED':
+				return 'Encargado de Despachos'			
+			case 'AC':
+				return 'Asistente de Cartera'
+			case 'AD':
+				return 'Asistente de Compras'
+			case 'CE':
+				return 'Asesor Comercial Externo'
+			case 'CJ':
+				return 'Asesor Comercial Junior'
+			default:
+				return 'Usuario Indefinido'
+				
+		}
+	}
+
 	const requestPost=async()=>{	
 		let emptiness, repeatness, valideteness = false;
 		emptiness = isEmpty();
@@ -104,7 +128,7 @@ const Create_user = () => {
 			f.append("name", user.name);
 			f.append("last", user.last);
 			f.append("email", user.email);
-			f.append("cargo", 'Gerente General');
+			f.append("cargo", getCargo(user.perm));
 			f.append("perm", user.perm);
 			f.append("suc", user.suc);
 			f.append("METHOD", "ADD");
@@ -202,7 +226,7 @@ const Create_user = () => {
 												<option value="CE">Asesor comercial externo</option>
 												<option value="AD">Asistente de compras</option>
 												<option value="AC">Asistente cartera</option>
-												<option value="ED">Encargada de despachos</option>
+												<option value="ED">Encargado de despachos</option>
 												<option value="CA">Cajera</option>
 												<option value="GC">Gerente Comercial</option>
 												<option value="GG">Gerente General</option>

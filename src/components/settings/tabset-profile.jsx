@@ -4,6 +4,7 @@ import { User, Settings } from "react-feather";
 import { Button, Row, Table } from "reactstrap";
 import {  useNavigate } from "react-router-dom";
 import { UserContext } from "../../constants/user-data";
+import BuildingComp from "../common/utils/building/building-comp";
 
 
 const TabsetProfile = () => {
@@ -80,7 +81,7 @@ const TabsetProfile = () => {
 					{/* <div className="tab-pane fade"> */}					
 					<div className="account-setting deactivate-account">
 						<Row>
-							<h1>PROXIMAMENTE</h1>
+							<BuildingComp/>
 						</Row>						
 					</div>					
 				</TabPanel>

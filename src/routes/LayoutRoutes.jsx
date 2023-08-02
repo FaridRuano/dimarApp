@@ -95,7 +95,7 @@ const LayoutRoutes = () => {
 							element={<Createrequest />}
 						/>
 						<Route
-							path={`${process.env.PUBLIC_URL}/requests/see-request`}
+							path={`${process.env.PUBLIC_URL}/requests/see-request/:id`}
 							element={<Seerequest />}
 						/>																		
 

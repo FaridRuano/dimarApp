@@ -7,7 +7,7 @@ import { Autocomplete } from "@mui/joy";
 import { NumericFormat } from "react-number-format";
 import './style.scss'
 import DataTable from "react-data-table-component";
-import SwitchButton from "../common/utils/switch-btn";
+import SwitchButton from "../common/utils/switch/switch-btn";
 import { Layers, Shuffle } from "react-feather";
 import ApiUrls from "../../constants/api-urls";
 import { UserContext } from "../../constants/user-data";
